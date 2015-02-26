@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 int main(int argc, char ** argv) {
-	printf("u dick\n");
+	puts("u dick");
 
 	return 0;
 }
