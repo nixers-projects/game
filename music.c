@@ -4,7 +4,7 @@
 #include <SDL2/SDL_mixer.h>
 
 bool initAudio() {
-	if (SDL_Init(SDL_INIT_EVERYTHING) == -1) {
+	if (SDL_Init(SDL_INIT_AUDIO) == -1) {
 		errx(1, "Failed to initialise SDL\nSDL ERROR: %s", SDL_GetError());
 		return false;
 	}

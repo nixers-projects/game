@@ -13,11 +13,10 @@ int main(int argc, char ** argv) {
 		return 1;
 	}
 
-	music = loadMusic("res/song.wav");
+	music = loadMusic("../res/song.mp3");
 	playMusic(music);
 
 	puts("u dick");
-
 	while (Mix_PlayingMusic()) {
 		SDL_Delay(1);
 	}
