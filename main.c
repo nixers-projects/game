@@ -5,6 +5,7 @@
 #include <SDL2/SDL_mixer.h>
 
 #include "music.h"
+#include "player.h"
 
 int main(int argc, char ** argv) {
 	Mix_Music * music = NULL;
