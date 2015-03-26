@@ -1,28 +1,16 @@
-#include <err.h>
 #include <stdio.h>
-#include <stdbool.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_mixer.h>
 
-#include "music.h"
 #include "player.h"
 
 int main(int argc, char ** argv) {
-	Mix_Music * music = NULL;
+	struct Player player;
+	char * name;
 
-	if (initAudio() == false) {
-		return 1;
-	}
-
-	music = loadMusic("../res/song.mp3");
-	playMusic(music);
-
-	puts("u dick");
-	while (Mix_PlayingMusic()) {
-		SDL_Delay(1);
-	}
-
-	cleanUp(music);
+	puts("      GAME\n    by iotek\n----------------");
+	puts("What is your name?\r");
+	scanf("%s", player.name);
+	setName(player, name);
+	printf("Welcome, %s\n", getName(player));
 
 	return 0;
 }
