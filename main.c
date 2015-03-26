@@ -30,9 +30,9 @@ int main(int argc, char ** argv) {
 	if (initAudio() == false) {
 		return 1;
 	}
-	music = loadMusic("../res/song.mp3");
+	music = loadMusic("res/song.mp3");
 	playMusic(music);
-        SDL_Surface* sprite = loadImage(screenSurf,"../res/rice.jpg");
+        SDL_Surface* sprite = loadImage(screenSurf,"res/rice.jpg");
         if(sprite == NULL)
         {
             return 1;
