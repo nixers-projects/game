@@ -3,20 +3,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 
-bool initAudio() {
-	if (SDL_Init(SDL_INIT_AUDIO) == -1) {
-		errx(1, "Failed to initialise SDL\nSDL ERROR: %s", SDL_GetError());
-		return false;
-	}
-
-	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096)) {
-		errx(1, "Failed to load SDL_Mixer\nSDL ERROR: %s", SDL_GetError());
-		return false;
-	}
-
-	return true;
-}
-
 Mix_Music * loadMusic(char path[]) {
 	Mix_Music * music = Mix_LoadMUS(path);
 

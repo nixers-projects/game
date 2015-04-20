@@ -95,7 +95,9 @@ int main(int argc, char **argv) {
         fprintf(stderr, "Failed to initialize TTF: %s\n", SDL_GetError());
         return 1;
     }
-    initAudio();
+    if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096)) {
+        fprintf(stderr, "Failed to load Mixer: %s", SDL_GetError());
+    }
 
     screen = SDL_CreateWindow(WINDOW_TITLE,
             SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
