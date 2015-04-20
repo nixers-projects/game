@@ -60,6 +60,13 @@ void event(SDL_Event e, int deltaTimeMs) {
         } else if (key == SDL_SCANCODE_W) {
             entity_move_up(character, deltaTimeS);
         }
+    } else if(e.type == SDL_KEYUP) {
+        SDL_Scancode key = e.key.keysym.scancode;
+        if (key == SDL_SCANCODE_A || key == SDL_SCANCODE_D) {
+            character->x_vel = 0;
+        } else if (key == SDL_SCANCODE_S || key == SDL_SCANCODE_W) {
+            character->y_vel = 0;
+        }
     }
 }
 

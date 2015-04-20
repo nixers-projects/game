@@ -10,6 +10,7 @@
 typedef struct {
     // pos
     float x, y;
+    float x_vel, y_vel;
     float velocity;
     int type;
     SDL_Texture *curr_img;

@@ -10,4 +10,5 @@ void game_init(SDL_Renderer *ren) {
     entities[0] = CreateEntity(ren, 200, 200, "stickman.bmp");
 
     character = CreateEntity(ren, 100, 100, "stickman.bmp");
+    character->type = ENTITY_TYPE_MAIN_CHARACTER;
 }
