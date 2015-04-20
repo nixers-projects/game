@@ -1,2 +1,7 @@
-all:
-	cc *.c -o game -lSDL2 -lSDL2_mixer -lSDL2_image
+CC=cc
+FLAGS=-std=c99 -lSDL2 -lSDL2_ttf
+FILES=main.c entity.c game.c
+OUT=game
+
+build: $(FILES)
+	$(CC) -g -Wall $(FLAGS) -o bin/$(OUT) $(FILES)
