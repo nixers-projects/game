@@ -27,13 +27,13 @@ void draw(int deltaTimeMs) {
             rendererEntity(renderer, entities[i]);
     }
 
-    SDL_Color background = { 255, 255, 255, 0 };
-    SDL_Color foreground = { 0, 0, 255, 0 };
+    SDL_Color background = { 0, 0, 0, 0 };
+    SDL_Color foreground = { 255, 255, 255, 0 };
 
-    char str[100];
-    sprintf(str, "Deltatime: %3.2f", fps);
+    char str[10];
+    sprintf(str, "%3.2f fps", fps);
     SDL_Surface *textSurface = TTF_RenderText(font, str, foreground, background);
-    SDL_Rect textLocation = { 100, 100, 200, 100 };
+    SDL_Rect textLocation = { 0, 0, 50, 25 };
     SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
     SDL_RenderCopy(renderer, text, NULL, &textLocation);
 }
