@@ -7,11 +7,16 @@
 #include "entity.h"
 #include "game.h"
 #include "music.h"
+#include "util.h"
 
 #define WINDOW_TITLE "Game"
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
 #define MAX_FPS 100
+
+#ifndef ASSETS
+	#define ASSETS "assets/"
+#endif
 
 // Main surface
 SDL_Window *screen;
@@ -106,14 +111,16 @@ int main(int argc, char **argv) {
         fprintf(stderr, "Failed to create renderer: %s\n", SDL_GetError());
         return 1;
     }
-
-    font = TTF_OpenFont("FONT.TTF", 12);
+	
+    char* path = buildPath(ASSETS,"fonts/FONT.TTF");
+    font = TTF_OpenFont(path, 12);
     if (font == NULL) {
-        fprintf(stderr, "Failed to load font: \n");
+        fprintf(stderr, "Failed to load font: %s\n",TTF_GetError());
         return 1;
     }
+	free(path);
 
-    Mix_Music* music = loadMusic("song.mp3");
+    Mix_Music* music = loadMusic(buildPath(ASSETS,"music/song.mp3"));
     playMusic(music);
 
     // Black backround
