@@ -2,9 +2,11 @@
 #include <stdbool.h>
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
+#include "SDL2/SDL_mixer.h"
 
 #include "entity.h"
 #include "game.h"
+#include "music.h"
 
 #define WINDOW_TITLE "Game"
 #define WINDOW_WIDTH 640
@@ -59,7 +61,9 @@ void event(SDL_Event e, int deltaTimeMs) {
             entity_move_down(character, deltaTimeS);
         } else if (key == SDL_SCANCODE_W) {
             entity_move_up(character, deltaTimeS);
-        }
+        } else if (key == SDL_SCANCODE_SPACE) {
+            toggleMusic();
+        }   
     } else if(e.type == SDL_KEYUP) {
         SDL_Scancode key = e.key.keysym.scancode;
         if (key == SDL_SCANCODE_A || key == SDL_SCANCODE_D) {
@@ -86,6 +90,7 @@ int main(int argc, char **argv) {
         fprintf(stderr, "Failed to initialize TTF: %s\n", SDL_GetError());
         return 1;
     }
+    initAudio();
 
     screen = SDL_CreateWindow(WINDOW_TITLE,
             SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
@@ -108,6 +113,8 @@ int main(int argc, char **argv) {
         return 1;
     }
 
+    Mix_Music* music = loadMusic("song.mp3");
+    playMusic(music);
 
     // Black backround
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);

@@ -1,6 +1,6 @@
 CC=cc
-FLAGS=-std=c99 -lSDL2 -lSDL2_ttf
-FILES=main.c entity.c game.c
+FLAGS=-std=c99 -lSDL2 -lSDL2_ttf -lSDL2_mixer
+FILES=main.c entity.c game.c music.c
 OUT=game
 
 build: $(FILES)
