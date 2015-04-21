@@ -1,7 +1,19 @@
 CC=cc
-FLAGS=-std=c99 -lSDL2 -lSDL2_ttf
-FILES=main.c entity.c game.c
+SRCDIR=src
+ASSETS="assets/"
+FLAGS=-Wall -Werror -std=c99 -DASSETS='$(ASSETS)' -c -g
+LIBS=-lSDL2 -lSDL2_ttf -lSDL2_mixer
+SRC=$(wildcard $(SRCDIR)/*.c)
+OBJS=$(notdir $(SRC:.c=.o))
 OUT=game
 
-build: $(FILES)
-	$(CC) -g -Wall $(FLAGS) -o bin/$(OUT) $(FILES)
+all: $(OUT)
+
+$(OUT): $(OBJS)
+	$(CC) $(OBJS) -o $(OUT) $(LIBS)
+
+%.o: $(SRCDIR)/%.c
+	$(CC) $(FLAGS) $<
+
+clean:
+	rm -f $(OUT) $(OBJS)
