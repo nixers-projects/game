@@ -24,10 +24,13 @@ SDL_Renderer *renderer;
 TTF_Font *font;
 
 SDL_Texture *curr_buffer;
+SDL_Texture *map_tex;
 
 void draw(int deltaTimeMs) {
     float deltaTimeS = (float) deltaTimeMs / 1000;
     float fps = (float) 1.0 / deltaTimeS;
+
+    renderToBuffer(renderer, map_tex, NULL, &map_rect);
 
     rendererEntity(renderer, character);
     for (int i = 0; i < MAX_ENTITIES; i++) {
@@ -43,7 +46,7 @@ void draw(int deltaTimeMs) {
     SDL_Surface *textSurface = TTF_RenderText(font, str, foreground, background);
     SDL_Rect textLocation = { 0, 0, 50, 25 };
     SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
-    renderToBuffer(renderer, text, &textLocation);
+    renderToBuffer(renderer, text, NULL, &textLocation);
 }
 
 void update(int deltaTimeMs) {
@@ -112,6 +115,7 @@ int main(int argc, char **argv) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
     game_init();
+
     if (buffers_init(renderer) != 0) {
         fprintf(stderr, "Failed to craete buffers: %s", SDL_GetError());
         return 1;
@@ -128,6 +132,10 @@ int main(int argc, char **argv) {
     int currentFrame = SDL_GetTicks();
     int lastFrame;
     int fpsMs = 1000 / MAX_FPS;
+
+    map_tex = renderMap(renderer, map);
+    // Reset the target
+
     while (!quit) {
         lastFrame = currentFrame;
         currentFrame = SDL_GetTicks();
