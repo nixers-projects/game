@@ -36,10 +36,9 @@ hop on IRC for the most up-to-date discussions.
 Style
 -----
 
-We plan on using [astyle](http://astyle.sourceforge.net) with a custom config
-to format the code. This means you can write however you like and simply run
-astyle to clean up after yourself. We will reject or at least ask you to run
-astyle on any pull requests that are not formatted correctly.
+The `prettify` script uses [astyle](http://astyle.sourceforge.net) to
+automatically format the code, please use it. We will reject or at least ask
+you to run astyle on any pull requests that are not formatted correctly.
 
 TODO
 ----
