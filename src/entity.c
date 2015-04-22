@@ -15,7 +15,7 @@ entity* CreateEntity(SDL_Renderer *ren, int x, int y, int w, int h,char *imagePa
     e->h = h;
     e->x_vel = 0;
     e->y_vel = 0;
-    e->velocity = 50;
+    e->velocity = 70;
     e->curr_img = tex;
     e->type = ENTITY_TYPE_DEFAULT;
     return e;
@@ -95,16 +95,16 @@ void eventEntity(entity * e, SDL_Event event, float deltaTimeS) {
 }
 
 void entity_move_left(entity *e, float deltaTimeS) {
-    e->x_vel = e->velocity * deltaTimeS * -5;
+    e->x_vel = e->velocity * -deltaTimeS;
 }
 
 void entity_move_right(entity *e, float deltaTimeS) {
-    e->x_vel = e->velocity * deltaTimeS * 5;
+    e->x_vel = e->velocity * deltaTimeS;
 }
 void entity_move_up(entity *e, float deltaTimeS) {
-    e->y_vel = e->velocity * deltaTimeS * -5;
+    e->y_vel = e->velocity * -deltaTimeS;
 }
 
 void entity_move_down(entity *e, float deltaTimeS) {
-    e->y_vel = e->velocity * deltaTimeS * 5;
+    e->y_vel = e->velocity * deltaTimeS;
 }

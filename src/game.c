@@ -21,6 +21,7 @@ void game_init(SDL_Renderer *ren) {
     SDL_QueryTexture(tex,NULL,NULL,&w,&h);
     character = CreateEntity(ren, 100, 100, w,h,path);
     character->type = ENTITY_TYPE_MAIN_CHARACTER;
+    character->velocity = 80;
     entities[0] = character;
     entities[1] = CreateEntity(ren, 200, 200, w,h,path);
     entities[2] = CreateEntity(ren,400,50,w,h,path);
