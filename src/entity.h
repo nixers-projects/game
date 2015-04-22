@@ -20,6 +20,7 @@ entity* CreateEntity(SDL_Renderer *ren, int x, int y, char *imagePath);
 
 void rendererEntity(SDL_Renderer *ren, entity *e);
 void updateEntity(entity *e, float deltaTimeS);
+void eventEntity(entity * e, SDL_Event event, float deltaTimeS);
 void entity_move_left(entity*, float);
 void entity_move_right(entity*, float);
 void entity_move_up(entity*, float);
