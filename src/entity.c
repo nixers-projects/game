@@ -51,28 +51,6 @@ void updateEntity(entity *e, float deltaTimeS) {
     }
 }
 
-void eventEntity(entity * e, SDL_Event event, float deltaTimeS) {
-    if (event.type == SDL_KEYDOWN) {
-        SDL_Scancode key = event.key.keysym.scancode;
-        if (key == SDL_SCANCODE_A) {
-            entity_move_left(e, deltaTimeS);
-        } else if (key == SDL_SCANCODE_D) {
-            entity_move_right(e, deltaTimeS);
-        } else if (key == SDL_SCANCODE_S) {
-            entity_move_down(e, deltaTimeS);
-        } else if (key == SDL_SCANCODE_W) {
-            entity_move_up(e, deltaTimeS);
-        }
-    } else if(event.type == SDL_KEYUP) {
-        SDL_Scancode key = event.key.keysym.scancode;
-        if (key == SDL_SCANCODE_A || key == SDL_SCANCODE_D) {
-            character->x_vel = 0;
-        } else if (key == SDL_SCANCODE_S || key == SDL_SCANCODE_W) {
-            character->y_vel = 0;
-        }
-    }
-}
-
 // Moves entity to new position if possible
 void entity_move(entity *e, float x, float y) {
     e->x = x;
