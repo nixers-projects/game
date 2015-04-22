@@ -56,40 +56,22 @@ void update(int deltaTimeMs) {
 }
 
 void event(SDL_Event e, int deltaTimeMs) {
-    float deltaTimeS = (float) deltaTimeMs / 1000;
     if (e.type == SDL_KEYDOWN) {
         SDL_Scancode key = e.key.keysym.scancode;
-        if (key == SDL_SCANCODE_A) {
-            entity_move_left(character, deltaTimeS);
-        } else if (key == SDL_SCANCODE_D) {
-            entity_move_right(character, deltaTimeS);
-        } else if (key == SDL_SCANCODE_S) {
-            entity_move_down(character, deltaTimeS);
-        } else if (key == SDL_SCANCODE_W) {
-            entity_move_up(character, deltaTimeS);
+        if (key == SDL_SCANCODE_ESCAPE) {
+            SDL_Quit();
         } else if (key == SDL_SCANCODE_SPACE) {
             toggleMusic();
         } else if (key == SDL_SCANCODE_C) {
             if (curr_buffer == buffer) curr_buffer = collision_buffer;
             else curr_buffer = buffer;
         }
-    } else if(e.type == SDL_KEYUP) {
-        SDL_Scancode key = e.key.keysym.scancode;
-        if (key == SDL_SCANCODE_A || key == SDL_SCANCODE_D) {
-            character->x_vel = 0;
-        } else if (key == SDL_SCANCODE_S || key == SDL_SCANCODE_W) {
-            character->y_vel = 0;
-        }
     }
+
+    eventEntity(character, e, (float) deltaTimeMs / 1000);
 }
 
 int main(int argc, char **argv) {
-
-    printf("%d\n", argc);
-    for (int i = 0; i < argc; i++) {
-        /*huehue*/
-        printf("%s\n", argv[i]);
-    }
 
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         fprintf(stderr, "Failed to initialize SDL: %s\n", SDL_GetError());
