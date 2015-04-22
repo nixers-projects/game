@@ -1,10 +1,11 @@
 game
 ====
 
-A game made by members of [nixers](nixers.net). The current plan is a "top-down
-RPG with a cyberpunk setting". We are writing it in C and SDL. We have a forum
-thread [here](nixers.net/showthread.php?tid=1621), and regularly discuss
-development over at #game on irc.nixers.net.
+A game made by members of [nixers](http://nixers.net). The current plan is a
+"top-down RPG with a cyberpunk setting". We are writing it in C and SDL. We
+have a forum thread [here](http://nixers.net/showthread.php?tid=1621), and
+regularly discuss development over at [#game](irc://irc.nixers.net/#game) on
+irc.nixers.net.
 
 Building
 --------
@@ -35,10 +36,10 @@ hop on IRC for the most up-to-date discussions.
 Style
 -----
 
-We plan on using [astyle](astyle.sourceforge.net) with a custom config to
-format the code. This means you can write however you like and simply run
+We plan on using [astyle](http://astyle.sourceforge.net) with a custom config
+to format the code. This means you can write however you like and simply run
 astyle to clean up after yourself. We will reject or at least ask you to run
-astlye on any pull requests that are not formatted correctly.
+astyle on any pull requests that are not formatted correctly.
 
 TODO
 ----
