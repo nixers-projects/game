@@ -2,14 +2,6 @@
 #include "collision.h"
 #include "game.h"
 
-bool rect_collide_x(SDL_Rect rect1, SDL_Rect rect2) {
-    return false;
-}
-
-bool rect_collide_y(SDL_Rect rect1, SDL_Rect rect2) {
-    return false;
-}
-
 bool checkCollision(SDL_Rect *rect,entity* self)
 {
     for (int i = 0; i < MAX_ENTITIES; i++) {
