@@ -58,9 +58,7 @@ void update(int deltaTimeMs) {
 void event(SDL_Event e, int deltaTimeMs) {
     if (e.type == SDL_KEYDOWN) {
         SDL_Scancode key = e.key.keysym.scancode;
-        if (key == SDL_SCANCODE_ESCAPE) {
-            SDL_Quit();
-        } else if (key == SDL_SCANCODE_SPACE) {
+        if (key == SDL_SCANCODE_SPACE) {
             toggleMusic();
         } else if (key == SDL_SCANCODE_C) {
             if (curr_buffer == buffer) curr_buffer = collision_buffer;
