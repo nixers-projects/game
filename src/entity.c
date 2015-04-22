@@ -29,19 +29,21 @@ void rendererEntity(SDL_Renderer *ren, entity *e) {
 void updateEntity(entity *e, float deltaTimeS) {
     switch (e->type) {
         case ENTITY_TYPE_DEFAULT:
-            if (character->x < e->x) e->x -= e->velocity * deltaTimeS;
-            if (character->x > e->x) e->x += e->velocity * deltaTimeS;
-            if (character->y < e->y) e->y -= e->velocity * deltaTimeS;
-            if (character->y > e->y) e->y += e->velocity * deltaTimeS;
+            if (character->x < e->x) entity_move_left(e, deltaTimeS);
+            if (character->x > e->x) entity_move_right(e, deltaTimeS);
+            if (character->y < e->y) entity_move_up(e, deltaTimeS);
+            if (character->y > e->y) entity_move_down(e, deltaTimeS);
+            entity_move(e, e->x + e->x_vel, e->y + e->y_vel);
             break;
         case ENTITY_TYPE_MAIN_CHARACTER:
             entity_move(e, e->x + e->x_vel, e->y + e->y_vel);
             break;
         case ENTITY_TYPE_PET:
-            if (character->x - 25 < e->x) e->x -= e->velocity * deltaTimeS;
-            if (character->x + 25 > e->x) e->x += e->velocity * deltaTimeS;
-            if (character->y - 25 < e->y) e->y -= e->velocity * deltaTimeS;
-            if (character->y + 25 > e->y) e->y += e->velocity * deltaTimeS;
+            if (character->x - 25 < e->x) entity_move_left(e, deltaTimeS);
+            if (character->x + 25 > e->x) entity_move_right(e, deltaTimeS);
+            if (character->y - 25 < e->y) entity_move_up(e, deltaTimeS);
+            if (character->y + 25 > e->y) entity_move_down(e, deltaTimeS);
+            entity_move(e, e->x + e->x_vel, e->y + e->y_vel);
             break;
         default:
             printf("Invalid entity type");
