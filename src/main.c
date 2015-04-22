@@ -8,21 +8,22 @@
 #include "game.h"
 #include "music.h"
 #include "util.h"
+#include "render.h"
 
 #define WINDOW_TITLE "Game"
-#define WINDOW_WIDTH 640
-#define WINDOW_HEIGHT 480
 #define MAX_FPS 100
 
 #ifndef ASSETS
 	#define ASSETS "assets/"
 #endif
 
-// Main surface
+// Main window
 SDL_Window *screen;
 SDL_Renderer *renderer;
 
 TTF_Font *font;
+
+SDL_Texture *curr_buffer;
 
 void draw(int deltaTimeMs) {
     float deltaTimeS = (float) deltaTimeMs / 1000;
@@ -42,7 +43,7 @@ void draw(int deltaTimeMs) {
     SDL_Surface *textSurface = TTF_RenderText(font, str, foreground, background);
     SDL_Rect textLocation = { 0, 0, 50, 25 };
     SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
-    SDL_RenderCopy(renderer, text, NULL, &textLocation);
+    renderToBuffer(renderer, text, &textLocation);
 }
 
 void update(int deltaTimeMs) {
@@ -61,6 +62,9 @@ void event(SDL_Event e, int deltaTimeMs) {
             SDL_Quit();
         } else if (key == SDL_SCANCODE_SPACE) {
             toggleMusic();
+        } else if (key == SDL_SCANCODE_C) {
+            if (curr_buffer == buffer) curr_buffer = collision_buffer;
+            else curr_buffer = buffer;
         }
     }
 
@@ -111,8 +115,17 @@ int main(int argc, char **argv) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
     game_init();
+    if (buffers_init(renderer) != 0) {
+        fprintf(stderr, "Failed to craete buffers: %s", SDL_GetError());
+        return 1;
+    }
 
+    curr_buffer = buffer;
     SDL_Event e;
+    SDL_Rect render_rect;
+    render_rect.x = 0; render_rect.y = 0;
+    render_rect.w = WINDOW_WIDTH;
+    render_rect.h = WINDOW_HEIGHT;
     bool quit = false;
     int deltaTime = 0;
     int currentFrame = SDL_GetTicks();
@@ -123,7 +136,7 @@ int main(int argc, char **argv) {
         currentFrame = SDL_GetTicks();
         deltaTime = currentFrame - lastFrame;
 
-        SDL_RenderClear(renderer);
+        renderClear(renderer);
 
         update(deltaTime);
         draw(deltaTime);
@@ -135,6 +148,11 @@ int main(int argc, char **argv) {
                 event(e, deltaTime);
         }
 
+        // Reset the target
+        SDL_SetRenderTarget(renderer, NULL);
+        // Copy the buffer
+        SDL_RenderCopy(renderer, curr_buffer, NULL, &render_rect);
+        // Draw the buffer to window
         SDL_RenderPresent(renderer);
 
         // Delay if we are drawing more that 100 fps
