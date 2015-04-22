@@ -22,7 +22,7 @@ entity* CreateEntity(SDL_Renderer *ren, int x, int y, int w, int h,char *imagePa
 }
 
 void rendererEntity(SDL_Renderer *ren, entity *e) {
-    render(ren, e, (int[3])WORLD_COLOR_HARD);
+    renderEntity(ren, e, (int[3])WORLD_COLOR_HARD);
 }
 
 void updateEntity(entity *e, float deltaTimeS) {
