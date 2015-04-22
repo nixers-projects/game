@@ -28,19 +28,21 @@ void rendererEntity(SDL_Renderer *ren, entity *e) {
 void updateEntity(entity *e, float deltaTimeS) {
     switch (e->type) {
         case ENTITY_TYPE_DEFAULT:
-            if (character->x < e->x)  entity_move(e, e->x - e->velocity * deltaTimeS,e->y);
-            if (character->x > e->x) entity_move(e,e->x + e->velocity * deltaTimeS,e->y);
-            if (character->y < e->y) entity_move(e,e->x,e->y - e->velocity * deltaTimeS);
-            if (character->y > e->y) entity_move(e,e->x,e->y + e->velocity * deltaTimeS);
+            if (character->x < e->x) entity_move_left(e, deltaTimeS);
+            if (character->x > e->x) entity_move_right(e, deltaTimeS);
+            if (character->y < e->y) entity_move_up(e, deltaTimeS);
+            if (character->y > e->y) entity_move_down(e, deltaTimeS);
+            entity_move(e, e->x + e->x_vel, e->y + e->y_vel);
             break;
         case ENTITY_TYPE_MAIN_CHARACTER:
             entity_move(e, e->x + e->x_vel, e->y + e->y_vel);
             break;
         case ENTITY_TYPE_PET:
-            if (character->x - 25 < e->x) e->x -= e->velocity * deltaTimeS;
-            if (character->x + 25 > e->x) e->x += e->velocity * deltaTimeS;
-            if (character->y - 25 < e->y) e->y -= e->velocity * deltaTimeS;
-            if (character->y + 25 > e->y) e->y += e->velocity * deltaTimeS;
+            if (character->x - 25 < e->x) entity_move_left(e, deltaTimeS);
+            if (character->x + 25 > e->x) entity_move_right(e, deltaTimeS);
+            if (character->y - 25 < e->y) entity_move_up(e, deltaTimeS);
+            if (character->y + 25 > e->y) entity_move_down(e, deltaTimeS);
+            entity_move(e, e->x + e->x_vel, e->y + e->y_vel);
             break;
         default:
             printf("Invalid entity type");
@@ -70,6 +72,28 @@ void entity_move(entity *e, float x, float y) {
     }
 }
 
+void eventEntity(entity * e, SDL_Event event, float deltaTimeS) {
+    if (event.type == SDL_KEYDOWN) {
+        SDL_Scancode key = event.key.keysym.scancode;
+        if (key == SDL_SCANCODE_A) {
+            entity_move_left(e, deltaTimeS);
+        } else if (key == SDL_SCANCODE_D) {
+            entity_move_right(e, deltaTimeS);
+        } else if (key == SDL_SCANCODE_S) {
+            entity_move_down(e, deltaTimeS);
+        } else if (key == SDL_SCANCODE_W) {
+            entity_move_up(e, deltaTimeS);
+        }
+    } else if(event.type == SDL_KEYUP) {
+        SDL_Scancode key = event.key.keysym.scancode;
+        if (key == SDL_SCANCODE_A || key == SDL_SCANCODE_D) {
+            character->x_vel = 0;
+        } else if (key == SDL_SCANCODE_S || key == SDL_SCANCODE_W) {
+            character->y_vel = 0;
+        }
+    }
+}
+
 void entity_move_left(entity *e, float deltaTimeS) {
     e->x_vel = e->velocity * deltaTimeS * -5;
 }
@@ -83,9 +107,4 @@ void entity_move_up(entity *e, float deltaTimeS) {
 
 void entity_move_down(entity *e, float deltaTimeS) {
     e->y_vel = e->velocity * deltaTimeS * 5;
-}
-
-void entity_stop(entity* e) {
-    e->x_vel = 0;
-    e->y_vel = 0;
 }

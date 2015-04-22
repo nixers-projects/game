@@ -1,8 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <stdio.h>
-
 #include "entity.h"
 
 #define MAX_ENTITIES 100

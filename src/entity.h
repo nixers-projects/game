@@ -22,13 +22,13 @@ entity* CreateEntity(SDL_Renderer *ren, int x, int y, int w, int h,char *imagePa
 
 void rendererEntity(SDL_Renderer *ren, entity *e);
 void updateEntity(entity *e, float deltaTimeS);
+void eventEntity(entity * e, SDL_Event event, float deltaTimeS);
 
 // Use these functions to move the entity
 void entity_move_left(entity*, float);
 void entity_move_right(entity*, float);
 void entity_move_up(entity*, float);
 void entity_move_down(entity*, float);
-void entity_stop(entity*);
 
 void entity_move(entity*, float, float);
 
