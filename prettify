@@ -1,0 +1,2 @@
+#!/bin/sh
+astyle --style=bsd -s4 -n src/*
