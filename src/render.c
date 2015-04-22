@@ -15,6 +15,20 @@ void renderClear(SDL_Renderer *ren) {
     SDL_RenderClear(ren);
 }
 
+void renderEntity(SDL_Renderer *ren, entity* e, int color[3]) {
+    SDL_Rect bodyRect;
+    SDL_Rect textureRect;
+    bodyRect.x = e->x;
+    bodyRect.y = e->y;
+    bodyRect.w = e->w;
+    bodyRect.h = e->h;
+    textureRect.x = e->x;
+    textureRect.y = e->y;
+    SDL_QueryTexture(e->curr_img, NULL, NULL, &textureRect.w, &textureRect.h);
+    renderToBuffer(ren, e->curr_img, &textureRect);
+    renderToCollisionBuffer(ren, &bodyRect, color);
+}
+
 void render(SDL_Renderer *ren, SDL_Texture *tex, SDL_Rect *r, int color[3]) {
     renderToBuffer(ren, tex, r);
     renderToCollisionBuffer(ren, r, color);

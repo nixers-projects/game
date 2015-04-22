@@ -65,7 +65,6 @@ void event(SDL_Event e, int deltaTimeMs) {
             else curr_buffer = buffer;
         }
     }
-
     eventEntity(character, e, (float) deltaTimeMs / 1000);
 }
 

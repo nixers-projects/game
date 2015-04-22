@@ -2,6 +2,7 @@
 #define RENDER_H
 
 #include <SDL2/SDL.h>
+#include "entity.h"
 
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
@@ -16,6 +17,7 @@ int buffers_init(SDL_Renderer *ren);
 
 void renderClear(SDL_Renderer*);
 void render(SDL_Renderer*, SDL_Texture*, SDL_Rect*, int color[3]);
+void renderEntity(SDL_Renderer*, entity*, int color[3]);
 void renderToBuffer(SDL_Renderer*, SDL_Texture*, SDL_Rect*);
 void renderToCollisionBuffer(SDL_Renderer*, SDL_Rect*, int color[3]);
 

@@ -14,10 +14,15 @@ void game_init(SDL_Renderer *ren) {
     }
 
 	char* path = buildPath(ASSETS, "sprites/stickman.bmp");
-    entities[0] = CreateEntity(ren, 200, 200, path);
-    entities[0]->velocity = 30;
 
-    character = CreateEntity(ren, 0, 0, path);
+    int w,h;
+    SDL_Surface *img = SDL_LoadBMP(path);
+    SDL_Texture *tex = SDL_CreateTextureFromSurface(ren, img);
+    SDL_QueryTexture(tex,NULL,NULL,&w,&h);
+    character = CreateEntity(ren, 100, 100, w,h,path);
     character->type = ENTITY_TYPE_MAIN_CHARACTER;
+    entities[0] = character;
+    entities[1] = CreateEntity(ren, 200, 200, w,h,path);
+    entities[2] = CreateEntity(ren,400,50,w,h,path);
 	free(path);
 }

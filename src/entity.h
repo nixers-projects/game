@@ -10,13 +10,15 @@
 typedef struct {
     // pos
     float x, y;
+    // body size
+    float w,h;
     float x_vel, y_vel;
     float velocity;
     int type;
     SDL_Texture *curr_img;
 } entity;
 
-entity* CreateEntity(SDL_Renderer *ren, int x, int y, char *imagePath);
+entity* CreateEntity(SDL_Renderer *ren, int x, int y, int w, int h,char *imagePath);
 
 void rendererEntity(SDL_Renderer *ren, entity *e);
 void updateEntity(entity *e, float deltaTimeS);
