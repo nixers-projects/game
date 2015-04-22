@@ -14,9 +14,11 @@ void game_init(SDL_Renderer *ren) {
     }
 
 	char* path = buildPath(ASSETS, "sprites/stickman.bmp");
-    entities[0] = CreateEntity(ren, 200, 200, path);
 
-    character = CreateEntity(ren, 100, 100, path);
+    character = CreateEntity(ren, 100, 100, 64,128,path);
     character->type = ENTITY_TYPE_MAIN_CHARACTER;
+    entities[0] = character;
+    entities[1] = CreateEntity(ren, 200, 200, 64,128,path);
+    entities[2] = CreateEntity(ren,400,50,64,128,path);
 	free(path);
 }

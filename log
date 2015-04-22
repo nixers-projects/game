@@ -1,0 +1,182 @@
+==2882== Memcheck, a memory error detector
+==2882== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==2882== Using Valgrind-3.10.1 and LibVEX; rerun with -h for copyright info
+==2882== Command: ./game
+==2882== 
+==2884== Warning: invalid file descriptor 1024 in syscall close()
+==2884== Warning: invalid file descriptor 1025 in syscall close()
+==2884== Warning: invalid file descriptor 1026 in syscall close()
+==2884== Warning: invalid file descriptor 1027 in syscall close()
+==2884==    Use --log-fd=<number> to select an alternative log fd.
+==2884== Warning: invalid file descriptor 1028 in syscall close()
+==2884== Warning: invalid file descriptor 1029 in syscall close()
+==2882== Conditional jump or move depends on uninitialised value(s)
+==2882==    at 0xB97CF04: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB923485: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB925CCD: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xBA3B45F: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xBA3C98D: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB95D234: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB95D5B1: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB95D647: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xBA3AE44: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xBA43D40: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB6688A5: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB668C27: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882== 
+==2882== Conditional jump or move depends on uninitialised value(s)
+==2882==    at 0xB97CF04: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB923485: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB923D3C: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xBA6EFF0: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xBA70430: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB95D234: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB95D5B1: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB95D647: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xBA6F2D6: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xBA47D5A: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB91A154: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB8FCF1B: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882== 
+==2882== Syscall param writev(vector[...]) points to uninitialised byte(s)
+==2882==    at 0x5670BDD: ??? (in /usr/lib/libc-2.21.so)
+==2882==    by 0x84BFCCA: ??? (in /usr/lib/libxcb.so.1.1.0)
+==2882==    by 0x84C00C0: ??? (in /usr/lib/libxcb.so.1.1.0)
+==2882==    by 0x84C0144: xcb_writev (in /usr/lib/libxcb.so.1.1.0)
+==2882==    by 0x81B518D: _XSend (in /usr/lib/libX11.so.6.3.0)
+==2882==    by 0x81B5681: _XReply (in /usr/lib/libX11.so.6.3.0)
+==2882==    by 0x81A0406: XInternAtom (in /usr/lib/libX11.so.6.3.0)
+==2882==    by 0x4EEDE9B: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4EEEC8A: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4EE155F: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4EE136F: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4E495FE: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==  Address 0x75ce9f3 is 35 bytes inside a block of size 16,384 alloc'd
+==2882==    at 0x4C2C080: calloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2882==    by 0x81A54E1: XOpenDisplay (in /usr/lib/libX11.so.6.3.0)
+==2882==    by 0x4EECCB4: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4EE1330: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4E495FE: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x401C02: main (main.c:90)
+==2882== 
+==2885== Warning: invalid file descriptor 1024 in syscall close()
+1
+./game
+==2885== 
+==2885== HEAP SUMMARY:
+==2885==     in use at exit: 2,235,469 bytes in 1,259 blocks
+==2885==   total heap usage: 12,464 allocs, 11,205 frees, 219,846,853 bytes allocated
+==2885== 
+==2885== LEAK SUMMARY:
+==2885==    definitely lost: 266 bytes in 6 blocks
+==2885==    indirectly lost: 0 bytes in 0 blocks
+==2885==      possibly lost: 260,644 bytes in 7 blocks
+==2885==    still reachable: 1,974,559 bytes in 1,246 blocks
+==2885==         suppressed: 0 bytes in 0 blocks
+==2885== Rerun with --leak-check=full to see details of leaked memory
+==2885== 
+==2885== For counts of detected and suppressed errors, rerun with: -v
+==2885== Use --track-origins=yes to see where uninitialised values come from
+==2885== ERROR SUMMARY: 6 errors from 3 contexts (suppressed: 0 from 0)
+ALSA lib pcm.c:7905:(snd_pcm_recover) underrun occurred
+ALSA lib pcm.c:7905:(snd_pcm_recover) underrun occurred
+==2882== Conditional jump or move depends on uninitialised value(s)
+==2882==    at 0xB6EBEF3: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0x4E8A002: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4E8A0BF: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4E8BCE1: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4E84E87: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x401D1F: main (main.c:111)
+==2882== 
+==2882== Conditional jump or move depends on uninitialised value(s)
+==2882==    at 0xB6EBEF5: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0x4E8A002: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4E8A0BF: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4E8BCE1: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4E84E87: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x401D1F: main (main.c:111)
+==2882== 
+==2882== Conditional jump or move depends on uninitialised value(s)
+==2882==    at 0xB6F0E7A: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB6F137F: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB6F13DA: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB6F1418: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB7F2207: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB6EBE50: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0x4E8A002: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4E8A0BF: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4E8BCE1: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4E84E87: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x401D1F: main (main.c:111)
+==2882== 
+==2882== Conditional jump or move depends on uninitialised value(s)
+==2882==    at 0xBA7A776: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xBA7A906: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB9E976D: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xBA70958: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB7F2207: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB6EBE50: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0x4E8A002: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4E8A0BF: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4E8BCE1: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4E84E87: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x401D1F: main (main.c:111)
+==2882== 
+==2882== Conditional jump or move depends on uninitialised value(s)
+==2882==    at 0xBA7A77F: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xBA7A906: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB9E976D: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xBA70958: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB7F2207: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB6EBE50: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0x4E8A002: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4E8A0BF: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4E8BCE1: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4E84E87: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x401D1F: main (main.c:111)
+==2882== 
+==2882== Conditional jump or move depends on uninitialised value(s)
+==2882==    at 0xBA7A828: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xBA7A906: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB9E976D: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xBA70958: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB7F2207: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0xB6EBE50: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0x4E8A002: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4E8A0BF: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4E8BCE1: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4E84E87: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x401D1F: main (main.c:111)
+==2882== 
+==2882== Conditional jump or move depends on uninitialised value(s)
+==2882==    at 0xB6EBEF3: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0x4E8A002: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4E84D63: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x401D1F: main (main.c:111)
+==2882== 
+==2882== Conditional jump or move depends on uninitialised value(s)
+==2882==    at 0xB6EBEF5: ??? (in /usr/lib/libnvidia-glcore.so.340.76)
+==2882==    by 0x4E8A002: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x4E84D63: ??? (in /usr/lib/libSDL2-2.0.so.0.2.1)
+==2882==    by 0x401D1F: main (main.c:111)
+==2882== 
+ALSA lib pcm.c:7905:(snd_pcm_recover) underrun occurred
+ALSA lib pcm.c:7905:(snd_pcm_recover) underrun occurred
+1
+./game
+==2882== 
+==2882== HEAP SUMMARY:
+==2882==     in use at exit: 1,448,471 bytes in 8,713 blocks
+==2882==   total heap usage: 37,011 allocs, 28,298 frees, 230,789,052 bytes allocated
+==2882== 
+==2882== LEAK SUMMARY:
+==2882==    definitely lost: 38,164 bytes in 404 blocks
+==2882==    indirectly lost: 845,984 bytes in 1,985 blocks
+==2882==      possibly lost: 151,024 bytes in 4,746 blocks
+==2882==    still reachable: 413,299 bytes in 1,578 blocks
+==2882==         suppressed: 0 bytes in 0 blocks
+==2882== Rerun with --leak-check=full to see details of leaked memory
+==2882== 
+==2882== For counts of detected and suppressed errors, rerun with: -v
+==2882== Use --track-origins=yes to see where uninitialised values come from
+==2882== ERROR SUMMARY: 18 errors from 11 contexts (suppressed: 0 from 0)
