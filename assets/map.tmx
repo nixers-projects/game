@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="1">
  <tileset firstgid="1" name="qwe" tilewidth="16" tileheight="16">
- <image source="tiles.png" width="272" height="16"/>
+  <image source="../../../Downloads/bomberassets/tiles.png" width="272" height="16"/>
  </tileset>
- <layer name="Tile Layer 1" width="100" height="100">
+ <layer name="free" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt1DFuwzAQRUGpyP2vnNYwUtkK9mk1xWtYEX9AnsdxnC/9aLTz4FGKRyserf7yeD/b2PTuPO5h8mSPohmPliGPvtP0vbfGoxePVt5IKx69eLTi0cqf1YpHKx6teLTi0epTDyY8nhCPVjxa8WjFoxWPVjxa8WjFoxWPVjxa8WjFoxWPVjxa8WjFoxWPVjxa8WjFoxWPVt94MOGxPR6teLTi0epbDyY8NsejFY9WPFrx6HSFBQ8eW7vKgwmPjfFoxaMVj05XWvDoeTDksalpCx48yk1bMGl6MOFRa3p/Hm2Pp5tMb8+DR7np7ZnwKDe9O5N7WPBoNr0RDx71pnfi8UyT6Y253N9js8v0plx2WWwymd6Qy36PO7tMb8blWRaSJEmSJEn/3S8w0V4l
+   eJztwwEJAAAMBKH7/qUHy6Hgqqmqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqv8AX0MnEQ==
+  </data>
+ </layer>
+ <layer name="solid" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt0cEJACAQwLD7uP/KjqAgSB8JdIKumVmSJD3GX360+NHiR4sfLX60+NHiR4sfLX60+NHiR4sfLX60+NHiR4sfLX60+NHiR4sfLX60+NHiR4sfLX60+NHiR4sfLX60+NHiR4sfLX60+NHiR4sfLX60+NHiR4sfLX60+NHiR4sfLX60+NHiR4sfLX60+NHiR4sfLX60+NHiR4sfLX60+NHiR4sfLX60+NHiR4sfLX60+NHiR4sfLX60+NHiR4sfLX60+NHiR4sfLX60+NHiR4sfLX60+NHiR4sfLX60+NHiR4sfLX60+NHiR8vphyRJN20hpx4B
   </data>
  </layer>
 </map>

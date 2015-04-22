@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <tmx.h>
 #include "render.h"
+#include "game.h"
 
 int rmask = 0xff000000;
 int gmask = 0x00ff0000;
@@ -15,6 +16,10 @@ void renderClear(SDL_Renderer *ren) {
     // Clear collision buffer
     setTargetToCollisionBuffer(ren);
     SDL_RenderClear(ren);
+
+    // TODO: Draw map collision buffer to collision buffer
+    // Problem is that we dont have the srcrect so rendercopy fucks up
+    /*SDL_RenderCopy(ren, map_collision_buffer, NULL, &map_rect);*/
 }
 
 void setColor(SDL_Renderer *ren, int color) {
@@ -60,16 +65,21 @@ void renderToCollisionBuffer(SDL_Renderer *ren, SDL_Rect *srcrect,
     if (SDL_SetRenderTarget(ren, collision_buffer) != 0) {
         puts("FUCK COLLISION");
     }
+    SDL_Texture *t = fillRect(ren, dstrect, color);
+    SDL_RenderCopy(ren, t, srcrect, dstrect);
+}
+
+SDL_Texture* fillRect(SDL_Renderer *ren, SDL_Rect *rect, int color[3]) {
     SDL_Texture *t;
     SDL_Surface *s;
 
-    s = SDL_CreateRGBSurface(0, dstrect->w, dstrect->h, 32, rmask, gmask, bmask, amask);
+    s = SDL_CreateRGBSurface(0, rect->w, rect->h, 32, rmask, gmask, bmask, amask);
     SDL_FillRect(s, NULL, SDL_MapRGB(s->format,
                 color[0], color[1], color[2]));
     if (s == NULL) printf("FUCK SURFACE %s", SDL_GetError());
 
     t = SDL_CreateTextureFromSurface(ren, s);
-    SDL_RenderCopy(ren, t, srcrect, dstrect);
+    return t;
 }
 
 int buffers_init(SDL_Renderer *ren) {
@@ -79,7 +89,11 @@ int buffers_init(SDL_Renderer *ren) {
             SDL_TEXTUREACCESS_TARGET, WINDOW_WIDTH, WINDOW_HEIGHT);
     collision_buffer = SDL_CreateTexture(ren, 0,
             SDL_TEXTUREACCESS_TARGET, WINDOW_WIDTH, WINDOW_HEIGHT);
-    if (buffer == NULL || collision_buffer == NULL) return 1;
+    map_collision_buffer = SDL_CreateTexture(ren, 0,
+            SDL_TEXTUREACCESS_TARGET, WINDOW_WIDTH, WINDOW_HEIGHT);
+    if (buffer == NULL || collision_buffer == NULL
+            || map_collision_buffer == NULL)
+        return 1;
     return 0;
 }
 
@@ -119,7 +133,7 @@ SDL_Texture* renderMap(SDL_Renderer *ren, tmx_map *map) {
             } else if (layers->type == L_IMAGE) {
                 drawImageLayer(ren, layers->content.image);
             } else if (layers->type == L_LAYER) {
-                drawLayer(ren, map, layers);
+                drawLayer(ren, res, map, layers);
             }
         }
         layers = layers->next;
@@ -166,11 +180,18 @@ void drawPolygon(SDL_Renderer *ren, int **points, int x, int y, int pointsc) {
     }
 }
 
-void drawLayer(SDL_Renderer *ren, tmx_map *map, tmx_layer *layer) {
+void drawLayer(SDL_Renderer *ren, SDL_Texture *res, tmx_map *map, tmx_layer *layer) {
     unsigned long i, j;
     tmx_tileset *ts;
     SDL_Texture *tex_ts;
     SDL_Rect srcrect, dstrect;
+
+    // Clear the map collision buffer
+    SDL_SetRenderTarget(ren, map_collision_buffer);
+    SDL_RenderClear(ren);
+    // Set the target back to map's texture
+    SDL_SetRenderTarget(ren, res);
+
     for (i=0; i<map->height; i++) {
         for (j=0; j<map->width; j++) {
             ts = tmx_get_tile(map, layer->content.gids[(i*map->width)+j],
@@ -185,6 +206,21 @@ void drawLayer(SDL_Renderer *ren, tmx_map *map, tmx_layer *layer) {
                 tex_ts = SDL_CreateTextureFromSurface(ren, (SDL_Surface*)ts->image->resource_image);
                 SDL_RenderCopy(ren, tex_ts, &srcrect, &dstrect);
                 SDL_DestroyTexture(tex_ts);
+
+                /*printf("%d x: %d y: %d\n", layer->content.gids[(i*map->width)+j] & TMX_FLIP_BITS_REMOVAL,*/
+                        /*dstrect.x, dstrect.y);*/
+                if (strcmp(layer->name, "solid") == 0) {
+                /*if ((layer->content.gids[(i*map->width)+j] & TMX_FLIP_BITS_REMOVAL) == 5) {*/
+                    /*renderToCollisionBuffer(ren, NULL, &dstrect, (int[3])WORLD_COLOR_HARD);*/
+
+                    SDL_Texture *tex = fillRect(ren, &dstrect, (int[3])WORLD_COLOR_HARD);
+
+                    SDL_SetRenderTarget(ren, map_collision_buffer);
+                    SDL_RenderCopy(ren, tex, NULL, &dstrect);
+
+                    SDL_SetRenderTarget(ren, res);
+                    SDL_DestroyTexture(tex);
+                }
             }
         }
     }
