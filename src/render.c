@@ -2,6 +2,7 @@
 #include <tmx.h>
 #include "render.h"
 #include "game.h"
+#include "collision.h"
 
 int rmask = 0xff000000;
 int gmask = 0x00ff0000;
@@ -114,6 +115,10 @@ void setTargetToBuffer(SDL_Renderer *ren) {
 }
 
 SDL_Texture* renderMap(SDL_Renderer *ren, tmx_map *map) {
+    // Free and re-initialize the collision_map
+    freeMapObjectArr(&collision_map);
+    initMapObjectArr(&collision_map, 100);
+
     SDL_Texture *res;
     tmx_layer *layers = map->ly_head;
     int w, h;
@@ -216,6 +221,9 @@ void drawLayer(SDL_Renderer *ren, SDL_Texture *res, tmx_map *map, tmx_layer *lay
                 if (strcmp(layer->name, "solid") == 0) {
                 /*if ((layer->content.gids[(i*map->width)+j] & TMX_FLIP_BITS_REMOVAL) == 5) {*/
                     /*renderToCollisionBuffer(ren, NULL, &dstrect, (int[3])WORLD_COLOR_HARD);*/
+
+                    // Add collision point to collision_map
+                    insertMapObjectArr(&collision_map, dstrect);
 
                     SDL_Texture *tex = fillRect(ren, &dstrect, (int[3])WORLD_COLOR_HARD);
 

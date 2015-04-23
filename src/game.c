@@ -6,6 +6,7 @@
 #include "game.h"
 #include "entity.h"
 #include "util.h"
+#include "collision.h"
 
 #ifndef ASSETS
 	#define ASSETS "assets/"
