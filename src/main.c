@@ -44,7 +44,7 @@ void draw(int deltaTimeMs) {
     char str[10];
     sprintf(str, "%3.2f fps", fps);
     SDL_Surface *textSurface = TTF_RenderText(font, str, foreground, background);
-    SDL_Rect textLocation = { 0, 0, 50, 25 };
+    SDL_Rect textLocation = { 0 + camera.x, 0 + camera.y, 50, 25 };
     SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
     renderToBuffer(renderer, text, NULL, &textLocation);
 }
@@ -56,6 +56,7 @@ void update(int deltaTimeMs) {
         if (entities[i] != NULL)
             updateEntity(entities[i], deltaTimeS);
     }
+    updateCamera();
 }
 
 void event(SDL_Event e, int deltaTimeMs) {
@@ -134,7 +135,10 @@ int main(int argc, char **argv) {
     int fpsMs = 1000 / MAX_FPS;
 
     map_tex = renderMap(renderer, map);
-    // Reset the target
+
+    camera.x = 0; camera.y = 0;
+    camera.w = WINDOW_WIDTH;
+    camera.h = WINDOW_HEIGHT;
 
     while (!quit) {
         lastFrame = currentFrame;
@@ -149,6 +153,8 @@ int main(int argc, char **argv) {
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_QUIT)
                 quit = true;
+            if (e.key.keysym.scancode == SDL_SCANCODE_L)
+                map_rect.x -= 1;
             else
                 event(e, deltaTime);
         }
@@ -156,7 +162,7 @@ int main(int argc, char **argv) {
         // Reset the target
         SDL_SetRenderTarget(renderer, NULL);
         // Copy the buffer
-        SDL_RenderCopy(renderer, curr_buffer, NULL, &render_rect);
+        SDL_RenderCopy(renderer, curr_buffer, &camera, &render_rect);
         // Draw the buffer to window
         SDL_RenderPresent(renderer);
 

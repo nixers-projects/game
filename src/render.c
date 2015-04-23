@@ -17,6 +17,7 @@ void renderClear(SDL_Renderer *ren) {
     setTargetToCollisionBuffer(ren);
     SDL_RenderClear(ren);
 
+    // Draw map collsion buffer to collision buffer
     SDL_RenderCopy(ren, map_collision_buffer, NULL, NULL);
 }
 
@@ -33,13 +34,16 @@ void setColor(SDL_Renderer *ren, int color) {
 void renderEntity(SDL_Renderer *ren, entity* e, int color[3]) {
     SDL_Rect bodyRect;
     SDL_Rect textureRect;
-    bodyRect.x = e->x;
-    bodyRect.y = e->y;
+
+    bodyRect.x = e->x - map_rect.x;
+    bodyRect.y = e->y - map_rect.y;
     bodyRect.w = e->w;
     bodyRect.h = e->h;
-    textureRect.x = e->x;
-    textureRect.y = e->y;
+
+    textureRect.x = e->x - map_rect.x;
+    textureRect.y = e->y - map_rect.y;
     SDL_QueryTexture(e->curr_img, NULL, NULL, &textureRect.w, &textureRect.h);
+
     renderToBuffer(ren, e->curr_img, NULL, &textureRect);
     renderToCollisionBuffer(ren, NULL, &bodyRect, color);
 }
@@ -83,12 +87,14 @@ SDL_Texture* fillRect(SDL_Renderer *ren, SDL_Rect *rect, int color[3]) {
 int buffers_init(SDL_Renderer *ren) {
     buffer = NULL;
     collision_buffer = NULL;
+
     buffer = SDL_CreateTexture(ren, 0,
-            SDL_TEXTUREACCESS_TARGET, WINDOW_WIDTH, WINDOW_HEIGHT);
+            SDL_TEXTUREACCESS_TARGET, map_rect.w, map_rect.h);
     collision_buffer = SDL_CreateTexture(ren, 0,
-            SDL_TEXTUREACCESS_TARGET, WINDOW_WIDTH, WINDOW_HEIGHT);
+            SDL_TEXTUREACCESS_TARGET, map_rect.w, map_rect.h);
     map_collision_buffer = SDL_CreateTexture(ren, 0,
-            SDL_TEXTUREACCESS_TARGET, WINDOW_WIDTH, WINDOW_HEIGHT);
+            SDL_TEXTUREACCESS_TARGET, map_rect.w, map_rect.h);
+
     if (buffer == NULL || collision_buffer == NULL
             || map_collision_buffer == NULL)
         return 1;
@@ -240,4 +246,18 @@ void drawImageLayer(SDL_Renderer *ren, tmx_image *img) {
         SDL_DestroyTexture(tex);
     }
 
+}
+
+void updateCamera() {
+    // Move camera
+    camera.x = character->x - WINDOW_WIDTH / 2 + character->w / 2;
+    camera.y = character->y - WINDOW_HEIGHT / 2;
+
+    // Keep it in bounds
+    if (camera.x < 0) camera.x = 0;
+    else if (camera.x > map_rect.w - WINDOW_WIDTH)
+        camera.x = map_rect.w - WINDOW_WIDTH;
+    if (camera.y < 0) camera.y = 0;
+    else if (camera.y > map_rect.h - WINDOW_HEIGHT)
+        camera.y = map_rect.h - WINDOW_HEIGHT;
 }

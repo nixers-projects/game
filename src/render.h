@@ -10,6 +10,8 @@
 
 #define WORLD_COLOR_HARD { 0, 255, 0 }
 
+SDL_Rect camera;
+
 SDL_Texture *buffer;
 SDL_Texture *collision_buffer;
 SDL_Texture *map_collision_buffer;
@@ -38,5 +40,7 @@ void drawPolyline(SDL_Renderer *ren, int **points, int x, int y, int pointsc);
 void drawPolygon(SDL_Renderer *ren, int **points, int x, int y, int pointsc);
 void drawLayer(SDL_Renderer *ren, SDL_Texture *res, tmx_map *map, tmx_layer *layer);
 void drawImageLayer(SDL_Renderer *ren, tmx_image *img);
+
+void updateCamera();
 
 #endif  // RENDER_H
