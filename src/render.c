@@ -17,9 +17,7 @@ void renderClear(SDL_Renderer *ren) {
     setTargetToCollisionBuffer(ren);
     SDL_RenderClear(ren);
 
-    // TODO: Draw map collision buffer to collision buffer
-    // Problem is that we dont have the srcrect so rendercopy fucks up
-    /*SDL_RenderCopy(ren, map_collision_buffer, NULL, &map_rect);*/
+    SDL_RenderCopy(ren, map_collision_buffer, NULL, NULL);
 }
 
 void setColor(SDL_Renderer *ren, int color) {

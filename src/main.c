@@ -66,8 +66,6 @@ void event(SDL_Event e, int deltaTimeMs) {
         } else if (key == SDL_SCANCODE_C) {
             if (curr_buffer == buffer) curr_buffer = collision_buffer;
             else curr_buffer = buffer;
-        } else if (key == SDL_SCANCODE_Q) {
-            curr_buffer = map_collision_buffer;
         }
     }
     eventEntity(character, e, (float) deltaTimeMs / 1000);
