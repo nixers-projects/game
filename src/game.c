@@ -9,15 +9,16 @@
 #include "collision.h"
 
 #ifndef ASSETS
-	#define ASSETS "assets/"
+#define ASSETS "assets/"
 #endif
 
-void game_init(SDL_Renderer *ren) {
+void game_init(SDL_Renderer *ren)
+{
     for (int i = 0; i < MAX_ENTITIES; i++) {
         entities[i] = NULL;
     }
 
-	char* path = buildPath(ASSETS, "sprites/stickman.bmp");
+    char* path = buildPath(ASSETS, "sprites/stickman.bmp");
 
     int w,h;
     SDL_Surface *img = SDL_LoadBMP(path);
@@ -41,7 +42,8 @@ void game_init(SDL_Renderer *ren) {
 
     map_rect.w = map->width  * map->tile_width;
     map_rect.h = map->height * map->tile_height;
-    map_rect.x = 0;  map_rect.y = 0;
+    map_rect.x = 0;
+    map_rect.y = 0;
 
-	free(path);
+    free(path);
 }

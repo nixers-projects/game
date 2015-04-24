@@ -14,7 +14,7 @@
 #define MAX_FPS 100
 
 #ifndef ASSETS
-	#define ASSETS "assets/"
+#define ASSETS "assets/"
 #endif
 
 // Main window
@@ -26,7 +26,8 @@ TTF_Font *font;
 SDL_Texture *curr_buffer;
 SDL_Texture *map_tex;
 
-void draw(int deltaTimeMs) {
+void draw(int deltaTimeMs)
+{
     float deltaTimeS = (float) deltaTimeMs / 1000;
     float fps = (float) 1.0 / deltaTimeS;
 
@@ -49,7 +50,8 @@ void draw(int deltaTimeMs) {
     renderToBuffer(renderer, text, NULL, &textLocation);
 }
 
-void update(int deltaTimeMs) {
+void update(int deltaTimeMs)
+{
     float deltaTimeS = (float) deltaTimeMs / 1000;
     updateEntity(character, deltaTimeS);
     for (int i = 0; i < MAX_ENTITIES; i++) {
@@ -59,7 +61,8 @@ void update(int deltaTimeMs) {
     updateCamera();
 }
 
-void event(SDL_Event e, int deltaTimeMs) {
+void event(SDL_Event e, int deltaTimeMs)
+{
     if (e.type == SDL_KEYDOWN) {
         SDL_Scancode key = e.key.keysym.scancode;
         if (key == SDL_SCANCODE_SPACE) {
@@ -72,7 +75,8 @@ void event(SDL_Event e, int deltaTimeMs) {
     eventEntity(character, e, (float) deltaTimeMs / 1000);
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
 
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         fprintf(stderr, "Failed to initialize SDL: %s\n", SDL_GetError());
@@ -87,9 +91,9 @@ int main(int argc, char **argv) {
     }
 
     screen = SDL_CreateWindow(WINDOW_TITLE,
-            SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-            WINDOW_WIDTH, WINDOW_HEIGHT,
-            SDL_WINDOW_BORDERLESS);
+                              SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                              WINDOW_WIDTH, WINDOW_HEIGHT,
+                              SDL_WINDOW_BORDERLESS);
     if (screen == NULL) {
         fprintf(stderr, "Failed to create window: %s\n", SDL_GetError());
         return 1;
@@ -100,14 +104,14 @@ int main(int argc, char **argv) {
         fprintf(stderr, "Failed to create renderer: %s\n", SDL_GetError());
         return 1;
     }
-	
+
     char* path = buildPath(ASSETS,"fonts/FONT.TTF");
     font = TTF_OpenFont(path, 12);
     if (font == NULL) {
         fprintf(stderr, "Failed to load font: %s\n",TTF_GetError());
         return 1;
     }
-	free(path);
+    free(path);
 
     Mix_Music* music = loadMusic(buildPath(ASSETS,"music/song.mp3"));
     playMusic(music);
@@ -125,7 +129,8 @@ int main(int argc, char **argv) {
     curr_buffer = buffer;
     SDL_Event e;
     SDL_Rect render_rect;
-    render_rect.x = 0; render_rect.y = 0;
+    render_rect.x = 0;
+    render_rect.y = 0;
     render_rect.w = WINDOW_WIDTH;
     render_rect.h = WINDOW_HEIGHT;
     bool quit = false;
@@ -136,7 +141,8 @@ int main(int argc, char **argv) {
 
     map_tex = renderMap(renderer, map);
 
-    camera.x = 0; camera.y = 0;
+    camera.x = 0;
+    camera.y = 0;
     camera.w = WINDOW_WIDTH;
     camera.h = WINDOW_HEIGHT;
 
