@@ -153,8 +153,6 @@ int main(int argc, char **argv) {
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_QUIT)
                 quit = true;
-            if (e.key.keysym.scancode == SDL_SCANCODE_L)
-                map_rect.x -= 1;
             else
                 event(e, deltaTime);
         }
