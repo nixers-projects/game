@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="1">
+ <tileset firstgid="1" name="qwe" tilewidth="16" tileheight="16">
+  <image source="../../../Downloads/bomberassets/tiles.png" width="272" height="16"/>
+ </tileset>
+ <layer name="free" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwwEJAAAMBKH7/qUHy6Hgqqmqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqv8AX0MnEQ==
+  </data>
+ </layer>
+ <layer name="solid" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt1sEJgDAUBcF4sP+WbUCIICQLmYV31s948B5j3GZmZj+3ut3P390qj+vD3t7ntHi04tGKRyserfxfteLRikcrHq14tOLRikcrHq14tKp5nB6PVjxa8WjFoxWPVjxa8WjFoxWPVjxa8WjFoxWPVjxa8WjFoxWPVjxa8WhV8pi9ywnfSulmHq2bebRu5nHmzeV4tOLRikcrHq14tOLRikcrHq14tOLRikcrHq14tOLRikcrHq14tOLRikcrHq14tOLRikcrHq14tOLRikcrHq14tOLRikcrHq14tOLRikcrHq14tOLRikcrHq14tOLRikcrHq14tOLRikcrHq14tOLRikcrHq1mHmZmZl/2AKPVIEo=
+  </data>
+ </layer>
+</map>

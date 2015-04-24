@@ -24,10 +24,13 @@ SDL_Renderer *renderer;
 TTF_Font *font;
 
 SDL_Texture *curr_buffer;
+SDL_Texture *map_tex;
 
 void draw(int deltaTimeMs) {
     float deltaTimeS = (float) deltaTimeMs / 1000;
     float fps = (float) 1.0 / deltaTimeS;
+
+    renderToBuffer(renderer, map_tex, NULL, &map_rect);
 
     rendererEntity(renderer, character);
     for (int i = 0; i < MAX_ENTITIES; i++) {
@@ -41,9 +44,9 @@ void draw(int deltaTimeMs) {
     char str[10];
     sprintf(str, "%3.2f fps", fps);
     SDL_Surface *textSurface = TTF_RenderText(font, str, foreground, background);
-    SDL_Rect textLocation = { 0, 0, 50, 25 };
+    SDL_Rect textLocation = { 0 + camera.x, 0 + camera.y, 50, 25 };
     SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
-    renderToBuffer(renderer, text, &textLocation);
+    renderToBuffer(renderer, text, NULL, &textLocation);
 }
 
 void update(int deltaTimeMs) {
@@ -53,6 +56,7 @@ void update(int deltaTimeMs) {
         if (entities[i] != NULL)
             updateEntity(entities[i], deltaTimeS);
     }
+    updateCamera();
 }
 
 void event(SDL_Event e, int deltaTimeMs) {
@@ -112,6 +116,7 @@ int main(int argc, char **argv) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
     game_init();
+
     if (buffers_init(renderer) != 0) {
         fprintf(stderr, "Failed to craete buffers: %s", SDL_GetError());
         return 1;
@@ -128,6 +133,13 @@ int main(int argc, char **argv) {
     int currentFrame = SDL_GetTicks();
     int lastFrame;
     int fpsMs = 1000 / MAX_FPS;
+
+    map_tex = renderMap(renderer, map);
+
+    camera.x = 0; camera.y = 0;
+    camera.w = WINDOW_WIDTH;
+    camera.h = WINDOW_HEIGHT;
+
     while (!quit) {
         lastFrame = currentFrame;
         currentFrame = SDL_GetTicks();
@@ -148,7 +160,7 @@ int main(int argc, char **argv) {
         // Reset the target
         SDL_SetRenderTarget(renderer, NULL);
         // Copy the buffer
-        SDL_RenderCopy(renderer, curr_buffer, NULL, &render_rect);
+        SDL_RenderCopy(renderer, curr_buffer, &camera, &render_rect);
         // Draw the buffer to window
         SDL_RenderPresent(renderer);
 
