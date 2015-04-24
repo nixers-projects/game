@@ -9,7 +9,8 @@ int gmask = 0x00ff0000;
 int bmask = 0x0000ff00;
 int amask = 0x000000ff;
 
-void renderClear(SDL_Renderer *ren) {
+void renderClear(SDL_Renderer *ren)
+{
     // Clear buffer
     setTargetToBuffer(ren);
     SDL_RenderClear(ren);
@@ -22,7 +23,8 @@ void renderClear(SDL_Renderer *ren) {
     SDL_RenderCopy(ren, map_collision_buffer, NULL, NULL);
 }
 
-void setColor(SDL_Renderer *ren, int color) {
+void setColor(SDL_Renderer *ren, int color)
+{
     unsigned char r, g, b;
 
     r = (color >> 16) & 0xFF;
@@ -32,7 +34,8 @@ void setColor(SDL_Renderer *ren, int color) {
     SDL_SetRenderDrawColor(ren, r, g, b, SDL_ALPHA_OPAQUE);
 }
 
-void renderEntity(SDL_Renderer *ren, entity* e, int color[3]) {
+void renderEntity(SDL_Renderer *ren, entity* e, int color[3])
+{
     SDL_Rect bodyRect;
     SDL_Rect textureRect;
 
@@ -50,7 +53,8 @@ void renderEntity(SDL_Renderer *ren, entity* e, int color[3]) {
 }
 
 void render(SDL_Renderer *ren, SDL_Texture *tex, SDL_Rect *srcrect,
-       SDL_Rect *dstrect, int color[3]) {
+            SDL_Rect *dstrect, int color[3])
+{
     // NOTE: This doesn't take into account the map's position
     // (see renderEntity)
     renderToBuffer(ren, tex, srcrect, dstrect);
@@ -58,7 +62,8 @@ void render(SDL_Renderer *ren, SDL_Texture *tex, SDL_Rect *srcrect,
 }
 
 void renderToBuffer(SDL_Renderer *ren, SDL_Texture *tex, SDL_Rect *srcrect,
-        SDL_Rect *dstrect) {
+                    SDL_Rect *dstrect)
+{
     if (SDL_SetRenderTarget(ren, buffer) != 0) {
         puts("FUCK BUFFER");
     }
@@ -66,7 +71,8 @@ void renderToBuffer(SDL_Renderer *ren, SDL_Texture *tex, SDL_Rect *srcrect,
 }
 
 void renderToCollisionBuffer(SDL_Renderer *ren, SDL_Rect *srcrect,
-        SDL_Rect *dstrect, int color[3]) {
+                             SDL_Rect *dstrect, int color[3])
+{
     if (SDL_SetRenderTarget(ren, collision_buffer) != 0) {
         puts("FUCK COLLISION");
     }
@@ -74,49 +80,54 @@ void renderToCollisionBuffer(SDL_Renderer *ren, SDL_Rect *srcrect,
     SDL_RenderCopy(ren, t, srcrect, dstrect);
 }
 
-SDL_Texture* fillRect(SDL_Renderer *ren, SDL_Rect *rect, int color[3]) {
+SDL_Texture* fillRect(SDL_Renderer *ren, SDL_Rect *rect, int color[3])
+{
     SDL_Texture *t;
     SDL_Surface *s;
 
     s = SDL_CreateRGBSurface(0, rect->w, rect->h, 32, rmask, gmask, bmask, amask);
     SDL_FillRect(s, NULL, SDL_MapRGB(s->format,
-                color[0], color[1], color[2]));
+                                     color[0], color[1], color[2]));
     if (s == NULL) printf("FUCK SURFACE %s", SDL_GetError());
 
     t = SDL_CreateTextureFromSurface(ren, s);
     return t;
 }
 
-int buffers_init(SDL_Renderer *ren) {
+int buffers_init(SDL_Renderer *ren)
+{
     buffer = NULL;
     collision_buffer = NULL;
 
     buffer = SDL_CreateTexture(ren, 0,
-            SDL_TEXTUREACCESS_TARGET, map_rect.w, map_rect.h);
+                               SDL_TEXTUREACCESS_TARGET, map_rect.w, map_rect.h);
     collision_buffer = SDL_CreateTexture(ren, 0,
-            SDL_TEXTUREACCESS_TARGET, map_rect.w, map_rect.h);
+                                         SDL_TEXTUREACCESS_TARGET, map_rect.w, map_rect.h);
     map_collision_buffer = SDL_CreateTexture(ren, 0,
-            SDL_TEXTUREACCESS_TARGET, map_rect.w, map_rect.h);
+                           SDL_TEXTUREACCESS_TARGET, map_rect.w, map_rect.h);
 
     if (buffer == NULL || collision_buffer == NULL
-            || map_collision_buffer == NULL)
+        || map_collision_buffer == NULL)
         return 1;
     return 0;
 }
 
-void setTargetToCollisionBuffer(SDL_Renderer *ren) {
+void setTargetToCollisionBuffer(SDL_Renderer *ren)
+{
     if (SDL_SetRenderTarget(ren, collision_buffer) != 0) {
         fprintf(stderr, "Failed to switch Target to collision_buffer");
     }
 }
 
-void setTargetToBuffer(SDL_Renderer *ren) {
+void setTargetToBuffer(SDL_Renderer *ren)
+{
     if (SDL_SetRenderTarget(ren, buffer) != 0) {
         fprintf(stderr, "Failed to switch Target to buffer");
     }
 }
 
-SDL_Texture* renderMap(SDL_Renderer *ren, tmx_map *map) {
+SDL_Texture* renderMap(SDL_Renderer *ren, tmx_map *map)
+{
     // Free and re-initialize the collision_map
     freeMapObjectArr(&collision_map);
     initMapObjectArr(&collision_map, 100);
@@ -129,7 +140,7 @@ SDL_Texture* renderMap(SDL_Renderer *ren, tmx_map *map) {
     h =  map->height * map->tile_height;
 
     if (!(res = SDL_CreateTexture(ren, SDL_PIXELFORMAT_RGBA8888,
-                    SDL_TEXTUREACCESS_TARGET, w, h)))
+                                  SDL_TEXTUREACCESS_TARGET, w, h)))
         puts("Error while creating map texture");
 
     if (SDL_SetRenderTarget(ren, res) != 0) puts("FUCK TARGTE");
@@ -153,7 +164,8 @@ SDL_Texture* renderMap(SDL_Renderer *ren, tmx_map *map) {
     return res;
 }
 
-void drawObjects(SDL_Renderer *ren, tmx_object *head, int color) {
+void drawObjects(SDL_Renderer *ren, tmx_object *head, int color)
+{
     SDL_Rect rect;
     setColor(ren, color);
     /* FIXME line thickness */
@@ -177,21 +189,24 @@ void drawObjects(SDL_Renderer *ren, tmx_object *head, int color) {
     }
 }
 
-void drawPolyline(SDL_Renderer *ren, int **points, int x, int y, int pointsc) {
+void drawPolyline(SDL_Renderer *ren, int **points, int x, int y, int pointsc)
+{
     int i;
     for (i=1; i<pointsc; i++) {
         SDL_RenderDrawLine(ren, x+points[i-1][0], y+points[i-1][1], x+points[i][0], y+points[i][1]);
     }
 }
 
-void drawPolygon(SDL_Renderer *ren, int **points, int x, int y, int pointsc) {
+void drawPolygon(SDL_Renderer *ren, int **points, int x, int y, int pointsc)
+{
     drawPolyline(ren, points, x, y, pointsc);
     if (pointsc > 2) {
         SDL_RenderDrawLine(ren, x+points[0][0], y+points[0][1], x+points[pointsc-1][0], y+points[pointsc-1][1]);
     }
 }
 
-void drawLayer(SDL_Renderer *ren, SDL_Texture *res, tmx_map *map, tmx_layer *layer) {
+void drawLayer(SDL_Renderer *ren, SDL_Texture *res, tmx_map *map, tmx_layer *layer)
+{
     unsigned long i, j;
     tmx_tileset *ts;
     SDL_Texture *tex_ts;
@@ -206,22 +221,23 @@ void drawLayer(SDL_Renderer *ren, SDL_Texture *res, tmx_map *map, tmx_layer *lay
     for (i=0; i<map->height; i++) {
         for (j=0; j<map->width; j++) {
             ts = tmx_get_tile(map, layer->content.gids[(i*map->width)+j],
-                    // FIXME: This probably aint good way to go..
-                    (unsigned int *)&(srcrect.x),
-                    (unsigned int *)&(srcrect.y));
+                              // FIXME: This probably aint good way to go..
+                              (unsigned int *)&(srcrect.x),
+                              (unsigned int *)&(srcrect.y));
             if (ts) {
                 /* TODO Opacity and Flips */
                 srcrect.w = dstrect.w = ts->tile_width;
                 srcrect.h = dstrect.h = ts->tile_height;
-                dstrect.x = j*ts->tile_width;  dstrect.y = i*ts->tile_height;
+                dstrect.x = j*ts->tile_width;
+                dstrect.y = i*ts->tile_height;
                 tex_ts = SDL_CreateTextureFromSurface(ren, (SDL_Surface*)ts->image->resource_image);
                 SDL_RenderCopy(ren, tex_ts, &srcrect, &dstrect);
                 SDL_DestroyTexture(tex_ts);
 
                 // Following if statement checks which layer we are on
                 if (strcmp(layer->name, "solid") == 0) {
-                // While toe following checks which tile (id) we have
-                // if ((layer->content.gids[(i*map->width)+j] & TMX_FLIP_BITS_REMOVAL) == 5) {
+                    // While toe following checks which tile (id) we have
+                    // if ((layer->content.gids[(i*map->width)+j] & TMX_FLIP_BITS_REMOVAL) == 5) {
 
                     // Add collision point to collision_map
                     insertMapObjectArr(&collision_map, dstrect);
@@ -239,7 +255,8 @@ void drawLayer(SDL_Renderer *ren, SDL_Texture *res, tmx_map *map, tmx_layer *lay
     }
 }
 
-void drawImageLayer(SDL_Renderer *ren, tmx_image *img) {
+void drawImageLayer(SDL_Renderer *ren, tmx_image *img)
+{
     SDL_Surface *bmp;
     SDL_Texture *tex;
     SDL_Rect dim;
@@ -257,7 +274,8 @@ void drawImageLayer(SDL_Renderer *ren, tmx_image *img) {
 
 }
 
-void updateCamera() {
+void updateCamera()
+{
     // Move camera
     camera.x = character->x - WINDOW_WIDTH / 2 + character->w / 2;
     camera.y = character->y - WINDOW_HEIGHT / 2;

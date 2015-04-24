@@ -1,2 +1,2 @@
 #!/bin/sh
-astyle --style=bsd -s4 -n src/*
+astyle --style=knf -s4 -n src/*
