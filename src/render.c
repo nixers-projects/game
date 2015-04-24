@@ -51,6 +51,8 @@ void renderEntity(SDL_Renderer *ren, entity* e, int color[3]) {
 
 void render(SDL_Renderer *ren, SDL_Texture *tex, SDL_Rect *srcrect,
        SDL_Rect *dstrect, int color[3]) {
+    // NOTE: This doesn't take into account the map's position
+    // (see renderEntity)
     renderToBuffer(ren, tex, srcrect, dstrect);
     renderToCollisionBuffer(ren, srcrect, dstrect, color);
 }
@@ -216,11 +218,10 @@ void drawLayer(SDL_Renderer *ren, SDL_Texture *res, tmx_map *map, tmx_layer *lay
                 SDL_RenderCopy(ren, tex_ts, &srcrect, &dstrect);
                 SDL_DestroyTexture(tex_ts);
 
-                /*printf("%d x: %d y: %d\n", layer->content.gids[(i*map->width)+j] & TMX_FLIP_BITS_REMOVAL,*/
-                        /*dstrect.x, dstrect.y);*/
+                // Following if statement checks which layer we are on
                 if (strcmp(layer->name, "solid") == 0) {
-                /*if ((layer->content.gids[(i*map->width)+j] & TMX_FLIP_BITS_REMOVAL) == 5) {*/
-                    /*renderToCollisionBuffer(ren, NULL, &dstrect, (int[3])WORLD_COLOR_HARD);*/
+                // While toe following checks which tile (id) we have
+                // if ((layer->content.gids[(i*map->width)+j] & TMX_FLIP_BITS_REMOVAL) == 5) {
 
                     // Add collision point to collision_map
                     insertMapObjectArr(&collision_map, dstrect);
