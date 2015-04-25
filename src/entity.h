@@ -2,6 +2,7 @@
 #define ENTITY_H
 
 #include <SDL2/SDL.h>
+#include "animation.h"
 
 #define ENTITY_TYPE_DEFAULT 0
 #define ENTITY_TYPE_MAIN_CHARACTER 1
@@ -16,9 +17,12 @@ typedef struct {
     float velocity;
     int type;
     SDL_Texture *curr_img;
+    // animation
+    animation* anim;
+    int current_anim;
 } entity;
 
-entity* CreateEntity(SDL_Renderer *ren, int x, int y, int w, int h,char *imagePath);
+entity* CreateEntity(SDL_Renderer *ren,int x, int y, int w, int h,char* path,animation anim[]);
 
 void rendererEntity(SDL_Renderer *ren, entity *e);
 void updateEntity(entity *e, float deltaTimeS);
@@ -31,5 +35,4 @@ void entity_move_up(entity*, float);
 void entity_move_down(entity*, float);
 
 void entity_move(entity*, float, float);
-
 #endif  // ENTITY_H

@@ -18,18 +18,17 @@ void game_init(SDL_Renderer *ren)
         entities[i] = NULL;
     }
 
-    char* path = buildPath(ASSETS, "sprites/stickman.bmp");
+    char* path = buildPath(ASSETS, "sprites/character.png");
 
-    int w,h;
-    SDL_Surface *img = SDL_LoadBMP(path);
-    SDL_Texture *tex = SDL_CreateTextureFromSurface(ren, img);
-    SDL_QueryTexture(tex,NULL,NULL,&w,&h);
-    character = CreateEntity(ren, 100, 100, w,h,path);
+    animation animArray[1];
+    animation anim = CreateAnimation(ren,path,8,24,32);
+    animArray[0] = anim;
+    character = CreateEntity(ren,100, 100, 24,32,path,animArray);
     character->type = ENTITY_TYPE_MAIN_CHARACTER;
     character->velocity = 80;
     entities[0] = character;
-    entities[1] = CreateEntity(ren, 200, 200, w,h,path);
-    entities[2] = CreateEntity(ren,400,50,w,h,path);
+    entities[1] = CreateEntity(ren, 200, 200, 24,32,path,animArray);
+    entities[2] = CreateEntity(ren,400,50,24,32,path,animArray);
 
     path = buildPath(ASSETS, "map.tmx");
     /* You probably want to create a fuction that creates a SDL_Texture directly here */

@@ -3,6 +3,7 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
 #include "SDL2/SDL_mixer.h"
+#include "SDL2/SDL_image.h"
 
 #include "entity.h"
 #include "game.h"
@@ -33,7 +34,6 @@ void draw(int deltaTimeMs)
 
     renderToBuffer(renderer, map_tex, NULL, &map_rect);
 
-    rendererEntity(renderer, character);
     for (int i = 0; i < MAX_ENTITIES; i++) {
         if (entities[i] != NULL)
             rendererEntity(renderer, entities[i]);
@@ -53,7 +53,6 @@ void draw(int deltaTimeMs)
 void update(int deltaTimeMs)
 {
     float deltaTimeS = (float) deltaTimeMs / 1000;
-    updateEntity(character, deltaTimeS);
     for (int i = 0; i < MAX_ENTITIES; i++) {
         if (entities[i] != NULL)
             updateEntity(entities[i], deltaTimeS);
@@ -88,6 +87,11 @@ int main(int argc, char **argv)
     }
     if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096)) {
         fprintf(stderr, "Failed to load Mixer: %s", SDL_GetError());
+    }
+    int imgFlags = IMG_INIT_JPG|IMG_INIT_PNG;
+    if(!(IMG_Init(imgFlags) & imgFlags))
+    {
+        fprintf(stderr,"Failed to initialize Image: %s",SDL_GetError());
     }
 
     screen = SDL_CreateWindow(WINDOW_TITLE,
@@ -150,7 +154,6 @@ int main(int argc, char **argv)
         lastFrame = currentFrame;
         currentFrame = SDL_GetTicks();
         deltaTime = currentFrame - lastFrame;
-
         renderClear(renderer);
 
         update(deltaTime);

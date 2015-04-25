@@ -1,14 +1,18 @@
+#include <SDL2/SDL_image.h>
 #include "entity.h"
 #include "game.h"
 #include "render.h"
 #include "collision.h"
 
-entity* CreateEntity(SDL_Renderer *ren, int x, int y, int w, int h,char *imagePath)
+entity* CreateEntity(SDL_Renderer *ren, int x, int y, int w, int h,char* imagePath,animation anim[])
 {
-    SDL_Surface *img = SDL_LoadBMP(imagePath);
+    SDL_Surface *img = IMG_Load(imagePath);
+    if(!img)
+    {
+        fprintf(stderr,"IMG_Load: %s\n", IMG_GetError());
+    }
     SDL_Texture *tex = SDL_CreateTextureFromSurface(ren, img);
     SDL_FreeSurface(img);
-
     entity *e = malloc(sizeof(entity));
     e->x = x;
     e->y = y;
@@ -17,6 +21,8 @@ entity* CreateEntity(SDL_Renderer *ren, int x, int y, int w, int h,char *imagePa
     e->x_vel = 0;
     e->y_vel = 0;
     e->velocity = 70;
+    e->anim = anim;
+    e->current_anim = 0;
     e->curr_img = tex;
     e->type = ENTITY_TYPE_DEFAULT;
     return e;
@@ -24,11 +30,19 @@ entity* CreateEntity(SDL_Renderer *ren, int x, int y, int w, int h,char *imagePa
 
 void rendererEntity(SDL_Renderer *ren, entity *e)
 {
-    renderEntity(ren, e, (int[3])WORLD_COLOR_HARD);
+    SDL_Rect textureRect;
+    textureRect.x = e->anim[e->current_anim].current_frame * e->anim[e->current_anim].frameWidth;
+    textureRect.y = 0;
+    textureRect.w = e->anim[e->current_anim].frameWidth;
+    textureRect.h = e->anim[e->current_anim].frameHeight;
+    renderEntity(ren, e,(int[3])WORLD_COLOR_HARD,&textureRect);
 }
 
 void updateEntity(entity *e, float deltaTimeS)
 {
+    int texX,texY;
+    SDL_QueryTexture(e->curr_img,NULL,NULL,&texX,&texY);
+    updateAnimation(&e->anim[e->current_anim],deltaTimeS,texX,texY);
     switch (e->type) {
     case ENTITY_TYPE_DEFAULT:
         if (character->x < e->x) entity_move_left(e, deltaTimeS);
