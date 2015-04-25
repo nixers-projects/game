@@ -18,11 +18,11 @@ typedef struct {
     int type;
     SDL_Texture *curr_img;
     // animation
+    animationCollection animations;
     animation* anim;
-    int current_anim;
 } entity;
 
-entity* CreateEntity(SDL_Renderer *ren,int x, int y, int w, int h,char* path,animation anim[]);
+entity* CreateEntity(SDL_Renderer *ren,int x, int y, int w, int h,char* path,animationCollection animations);
 
 void rendererEntity(SDL_Renderer *ren, entity *e);
 void updateEntity(entity *e, float deltaTimeS);

@@ -4,11 +4,10 @@
 #include "render.h"
 #include "collision.h"
 
-entity* CreateEntity(SDL_Renderer *ren, int x, int y, int w, int h,char* imagePath,animation anim[])
+entity* CreateEntity(SDL_Renderer *ren, int x, int y, int w, int h,char* imagePath,animationCollection animations)
 {
     SDL_Surface *img = IMG_Load(imagePath);
-    if(!img)
-    {
+    if(!img) {
         fprintf(stderr,"IMG_Load: %s\n", IMG_GetError());
     }
     SDL_Texture *tex = SDL_CreateTextureFromSurface(ren, img);
@@ -21,8 +20,8 @@ entity* CreateEntity(SDL_Renderer *ren, int x, int y, int w, int h,char* imagePa
     e->x_vel = 0;
     e->y_vel = 0;
     e->velocity = 70;
-    e->anim = anim;
-    e->current_anim = 0;
+    e->animations = animations;
+    e->anim = animations.move_up;
     e->curr_img = tex;
     e->type = ENTITY_TYPE_DEFAULT;
     return e;
@@ -30,19 +29,16 @@ entity* CreateEntity(SDL_Renderer *ren, int x, int y, int w, int h,char* imagePa
 
 void rendererEntity(SDL_Renderer *ren, entity *e)
 {
-    SDL_Rect textureRect;
-    textureRect.x = e->anim[e->current_anim].current_frame * e->anim[e->current_anim].frameWidth;
-    textureRect.y = 0;
-    textureRect.w = e->anim[e->current_anim].frameWidth;
-    textureRect.h = e->anim[e->current_anim].frameHeight;
-    renderEntity(ren, e,(int[3])WORLD_COLOR_HARD,&textureRect);
+    int texX;
+    SDL_QueryTexture(e->curr_img,NULL,NULL,&texX,NULL);
+    renderEntity(ren, e,(int[3])WORLD_COLOR_HARD,getTextureRect(e->anim,texX));
 }
 
 void updateEntity(entity *e, float deltaTimeS)
 {
     int texX,texY;
     SDL_QueryTexture(e->curr_img,NULL,NULL,&texX,&texY);
-    updateAnimation(&e->anim[e->current_anim],deltaTimeS,texX,texY);
+    updateAnimation(e->anim,deltaTimeS,texX,texY);
     switch (e->type) {
     case ENTITY_TYPE_DEFAULT:
         if (character->x < e->x) entity_move_left(e, deltaTimeS);
@@ -114,18 +110,22 @@ void eventEntity(entity * e, SDL_Event event, float deltaTimeS)
 void entity_move_left(entity *e, float deltaTimeS)
 {
     e->x_vel = e->velocity * -deltaTimeS;
+    e->anim = e->animations.move_left;
 }
 
 void entity_move_right(entity *e, float deltaTimeS)
 {
     e->x_vel = e->velocity * deltaTimeS;
+    e->anim = e->animations.move_right;
 }
 void entity_move_up(entity *e, float deltaTimeS)
 {
     e->y_vel = e->velocity * -deltaTimeS;
+    e->anim = e->animations.move_up;
 }
 
 void entity_move_down(entity *e, float deltaTimeS)
 {
     e->y_vel = e->velocity * deltaTimeS;
+    e->anim = e->animations.move_down;
 }

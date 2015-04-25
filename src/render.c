@@ -97,10 +97,8 @@ int buffers_init(SDL_Renderer *ren)
 {
     buffer = NULL;
     collision_buffer = NULL;
-    printf("%d\n",entities[0]->anim[0].frameWidth);
     buffer = SDL_CreateTexture(ren, 0,
                                SDL_TEXTUREACCESS_TARGET, map_rect.w, map_rect.h);
-    printf("%d\n",entities[0]->anim[0].frameWidth);
 
 
     collision_buffer = SDL_CreateTexture(ren, 0,

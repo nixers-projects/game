@@ -89,8 +89,7 @@ int main(int argc, char **argv)
         fprintf(stderr, "Failed to load Mixer: %s", SDL_GetError());
     }
     int imgFlags = IMG_INIT_JPG|IMG_INIT_PNG;
-    if(!(IMG_Init(imgFlags) & imgFlags))
-    {
+    if(!(IMG_Init(imgFlags) & imgFlags)) {
         fprintf(stderr,"Failed to initialize Image: %s",SDL_GetError());
     }
 
