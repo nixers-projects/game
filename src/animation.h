@@ -13,6 +13,6 @@ typedef struct animationCollection {
     animation* move_left;
 } animationCollection;
 
-animation* CreateAnimation(SDL_Renderer* ren,char* imagePath,int frameNumber,int frameWidth,int frameHeight,float timeBetweenFrames,int startX,int  startY);
-void updateAnimation(animation* e,float deltaTimeS,int texX,int texY);
-SDL_Rect* getTextureRect(animation*,int texX);
+animation* CreateAnimation(int frameNumber, int frameWidth, int frameHeight, float timeBetweenFrames, int startX, int  startY);
+void updateAnimation(animation* e, float deltaTimeS);
+SDL_Rect* getTextureRect(animation*, int texX);

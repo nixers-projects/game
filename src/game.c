@@ -20,10 +20,10 @@ void game_init(SDL_Renderer *ren)
 
     char* path = buildPath(ASSETS, "sprites/character.png");
     animationCollection collec;
-    animation *down = CreateAnimation(ren,path,8,24,32,0.3,0,0);
-    animation *up = CreateAnimation(ren,path,8,24,32,0.3,0,1);
-    animation *left = CreateAnimation(ren,path,8,24,32,0.3,0,2);
-    animation *right = CreateAnimation(ren,path,8,24,32,0.3,0,3);
+    animation *down = CreateAnimation(8,24,32,0.3,0,0);
+    animation *up = CreateAnimation(8,24,32,0.3,0,1);
+    animation *left = CreateAnimation(8,24,32,0.3,0,2);
+    animation *right = CreateAnimation(8,24,32,0.3,0,3);
     collec.move_up = up;
     collec.move_down = down;
     collec.move_left = left;

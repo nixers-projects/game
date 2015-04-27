@@ -1,7 +1,7 @@
 #include "animation.h"
 #include <SDL2/SDL_image.h>
 
-animation* CreateAnimation(SDL_Renderer *ren,char *imagePath,int frameNumber,int frameWidth,int frameHeight,float timeBetweenFrames,int startX,int startY)
+animation* CreateAnimation(int frameNumber, int frameWidth, int frameHeight, float timeBetweenFrames, int startX, int startY)
 {
 
     animation *anim = malloc(sizeof(animation));
@@ -16,7 +16,7 @@ animation* CreateAnimation(SDL_Renderer *ren,char *imagePath,int frameNumber,int
     return anim;
 }
 
-void updateAnimation(animation* anim,float deltaTimeS,int texX,int texY)
+void updateAnimation(animation* anim, float deltaTimeS)
 {
     anim->elapsedTime += deltaTimeS;
     if(anim->elapsedTime >= anim->timeBetweenFrames) {
@@ -26,7 +26,7 @@ void updateAnimation(animation* anim,float deltaTimeS,int texX,int texY)
     }
 }
 
-SDL_Rect* getTextureRect(animation* anim,int texX)
+SDL_Rect* getTextureRect(animation* anim, int texX)
 {
     SDL_Rect* textureRect = malloc(sizeof(SDL_Rect));
     textureRect->x = anim->startX * anim->frameWidth;

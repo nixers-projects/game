@@ -36,9 +36,7 @@ void rendererEntity(SDL_Renderer *ren, entity *e)
 
 void updateEntity(entity *e, float deltaTimeS)
 {
-    int texX,texY;
-    SDL_QueryTexture(e->curr_img,NULL,NULL,&texX,&texY);
-    updateAnimation(e->anim,deltaTimeS,texX,texY);
+    updateAnimation(e->anim,deltaTimeS);
     switch (e->type) {
     case ENTITY_TYPE_DEFAULT:
         if (character->x < e->x) entity_move_left(e, deltaTimeS);
