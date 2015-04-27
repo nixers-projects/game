@@ -4,14 +4,8 @@
 #include "render.h"
 #include "collision.h"
 
-entity* CreateEntity(SDL_Renderer *ren, int x, int y, int w, int h,char* imagePath,animationCollection animations)
+entity* CreateEntity(int x, int y, int w, int h, animationCollection animations)
 {
-    SDL_Surface *img = IMG_Load(imagePath);
-    if(!img) {
-        fprintf(stderr,"IMG_Load: %s\n", IMG_GetError());
-    }
-    SDL_Texture *tex = SDL_CreateTextureFromSurface(ren, img);
-    SDL_FreeSurface(img);
     entity *e = malloc(sizeof(entity));
     e->x = x;
     e->y = y;
@@ -22,16 +16,13 @@ entity* CreateEntity(SDL_Renderer *ren, int x, int y, int w, int h,char* imagePa
     e->velocity = 70;
     e->animations = animations;
     e->anim = animations.move_up;
-    e->curr_img = tex;
     e->type = ENTITY_TYPE_DEFAULT;
     return e;
 }
 
 void rendererEntity(SDL_Renderer *ren, entity *e)
 {
-    int texX;
-    SDL_QueryTexture(e->curr_img,NULL,NULL,&texX,NULL);
-    renderEntity(ren, e,(int[3])WORLD_COLOR_HARD,getTextureRect(e->anim,texX));
+    renderEntity(ren, e,(int[3])WORLD_COLOR_HARD,getTextureRect(e->anim));
 }
 
 void updateEntity(entity *e, float deltaTimeS)

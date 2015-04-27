@@ -1,10 +1,19 @@
 #include "animation.h"
 #include <SDL2/SDL_image.h>
 
-animation* CreateAnimation(int frameNumber, int frameWidth, int frameHeight, float timeBetweenFrames, int startX, int startY)
+animation* CreateAnimation(SDL_Renderer *ren,char *path, int frameNumber, int frameWidth, int frameHeight, float timeBetweenFrames, int startX, int startY)
 {
-
+    SDL_Surface *img = IMG_Load(path);
+    if(!img) {
+        fprintf(stderr,"IMG_Load: %s\n", IMG_GetError());
+    }
+    SDL_Texture *tex = SDL_CreateTextureFromSurface(ren, img);
+    SDL_FreeSurface(img);
+    int texX;
+    SDL_QueryTexture(tex,NULL,NULL,&texX,NULL);
     animation *anim = malloc(sizeof(animation));
+    anim->tex = tex;
+    anim->texX = texX;
     anim->frameNumber = frameNumber;
     anim->frameWidth = frameWidth;
     anim->frameHeight = frameHeight;
@@ -26,7 +35,7 @@ void updateAnimation(animation* anim, float deltaTimeS)
     }
 }
 
-SDL_Rect* getTextureRect(animation* anim, int texX)
+SDL_Rect* getTextureRect(animation* anim)
 {
     SDL_Rect* textureRect = malloc(sizeof(SDL_Rect));
     textureRect->x = anim->startX * anim->frameWidth;
@@ -35,7 +44,7 @@ SDL_Rect* getTextureRect(animation* anim, int texX)
     while(count < anim->current_frame) {
         count++;
         textureRect->x += anim->frameWidth;
-        if(textureRect->x >= texX) {
+        if(textureRect->x >= anim->texX) {
             textureRect->x = 0;
             textureRect->y += anim->frameHeight;
         }

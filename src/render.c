@@ -47,7 +47,7 @@ void renderEntity(SDL_Renderer *ren, entity* e, int color[3],SDL_Rect* textureRe
     dstrect.y = e->y - map_rect.y;
     dstrect.w = textureRect->w;
     dstrect.h = textureRect->h;
-    renderToBuffer(ren, e->curr_img, textureRect, &dstrect);
+    renderToBuffer(ren, e->anim->tex, textureRect, &dstrect);
     renderToCollisionBuffer(ren, NULL, &bodyRect, color);
 }
 

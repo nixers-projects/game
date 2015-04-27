@@ -3,6 +3,8 @@
 typedef struct animation {
     int frameNumber,frameWidth,frameHeight,current_frame,startX,startY;
     float elapsedTime,timeBetweenFrames;
+    SDL_Texture *tex;
+    int texX;
 } animation;
 
 typedef struct animationCollection {
@@ -13,6 +15,6 @@ typedef struct animationCollection {
     animation* move_left;
 } animationCollection;
 
-animation* CreateAnimation(int frameNumber, int frameWidth, int frameHeight, float timeBetweenFrames, int startX, int  startY);
+animation* CreateAnimation(SDL_Renderer *ren,char *path, int frameNumber, int frameWidth, int frameHeight, float timeBetweenFrames, int startX, int  startY);
 void updateAnimation(animation* e, float deltaTimeS);
-SDL_Rect* getTextureRect(animation*, int texX);
+SDL_Rect* getTextureRect(animation*);

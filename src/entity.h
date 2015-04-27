@@ -16,13 +16,12 @@ typedef struct {
     float x_vel, y_vel;
     float velocity;
     int type;
-    SDL_Texture *curr_img;
     // animation
     animationCollection animations;
     animation* anim;
 } entity;
 
-entity* CreateEntity(SDL_Renderer *ren,int x, int y, int w, int h,char* path,animationCollection animations);
+entity* CreateEntity(int x, int y, int w, int h,animationCollection animations);
 
 void rendererEntity(SDL_Renderer *ren, entity *e);
 void updateEntity(entity *e, float deltaTimeS);
