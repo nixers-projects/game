@@ -1,14 +1,11 @@
+#include <SDL2/SDL_image.h>
 #include "entity.h"
 #include "game.h"
 #include "render.h"
 #include "collision.h"
 
-entity* CreateEntity(SDL_Renderer *ren, int x, int y, int w, int h,char *imagePath)
+entity* CreateEntity(int x, int y, int w, int h, animationCollection animations)
 {
-    SDL_Surface *img = SDL_LoadBMP(imagePath);
-    SDL_Texture *tex = SDL_CreateTextureFromSurface(ren, img);
-    SDL_FreeSurface(img);
-
     entity *e = malloc(sizeof(entity));
     e->x = x;
     e->y = y;
@@ -17,18 +14,20 @@ entity* CreateEntity(SDL_Renderer *ren, int x, int y, int w, int h,char *imagePa
     e->x_vel = 0;
     e->y_vel = 0;
     e->velocity = 70;
-    e->curr_img = tex;
+    e->animations = animations;
+    e->anim = animations.move_up;
     e->type = ENTITY_TYPE_DEFAULT;
     return e;
 }
 
 void rendererEntity(SDL_Renderer *ren, entity *e)
 {
-    renderEntity(ren, e, (int[3])WORLD_COLOR_HARD);
+    renderEntity(ren, e,(int[3])WORLD_COLOR_HARD,getTextureRect(e->anim));
 }
 
 void updateEntity(entity *e, float deltaTimeS)
 {
+    updateAnimation(e->anim,deltaTimeS);
     switch (e->type) {
     case ENTITY_TYPE_DEFAULT:
         if (character->x < e->x) entity_move_left(e, deltaTimeS);
@@ -100,18 +99,22 @@ void eventEntity(entity * e, SDL_Event event, float deltaTimeS)
 void entity_move_left(entity *e, float deltaTimeS)
 {
     e->x_vel = e->velocity * -deltaTimeS;
+    e->anim = e->animations.move_left;
 }
 
 void entity_move_right(entity *e, float deltaTimeS)
 {
     e->x_vel = e->velocity * deltaTimeS;
+    e->anim = e->animations.move_right;
 }
 void entity_move_up(entity *e, float deltaTimeS)
 {
     e->y_vel = e->velocity * -deltaTimeS;
+    e->anim = e->animations.move_up;
 }
 
 void entity_move_down(entity *e, float deltaTimeS)
 {
     e->y_vel = e->velocity * deltaTimeS;
+    e->anim = e->animations.move_down;
 }

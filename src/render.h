@@ -23,7 +23,7 @@ void setColor(SDL_Renderer*, int color);
 
 void renderClear(SDL_Renderer*);
 void render(SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_Rect*, int color[3]);
-void renderEntity(SDL_Renderer*, entity*, int color[3]);
+void renderEntity(SDL_Renderer*, entity*, int color[3],SDL_Rect*);
 void renderToBuffer(SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_Rect*);
 void renderToCollisionBuffer(SDL_Renderer*, SDL_Rect*, SDL_Rect*, int color[3]);
 

@@ -34,21 +34,20 @@ void setColor(SDL_Renderer *ren, int color)
     SDL_SetRenderDrawColor(ren, r, g, b, SDL_ALPHA_OPAQUE);
 }
 
-void renderEntity(SDL_Renderer *ren, entity* e, int color[3])
+void renderEntity(SDL_Renderer *ren, entity* e, int color[3],SDL_Rect* textureRect)
 {
     SDL_Rect bodyRect;
-    SDL_Rect textureRect;
 
     bodyRect.x = e->x - map_rect.x;
     bodyRect.y = e->y - map_rect.y;
     bodyRect.w = e->w;
     bodyRect.h = e->h;
-
-    textureRect.x = e->x - map_rect.x;
-    textureRect.y = e->y - map_rect.y;
-    SDL_QueryTexture(e->curr_img, NULL, NULL, &textureRect.w, &textureRect.h);
-
-    renderToBuffer(ren, e->curr_img, NULL, &textureRect);
+    SDL_Rect dstrect;
+    dstrect.x = e->x - map_rect.x;
+    dstrect.y = e->y - map_rect.y;
+    dstrect.w = textureRect->w;
+    dstrect.h = textureRect->h;
+    renderToBuffer(ren, e->anim->tex, textureRect, &dstrect);
     renderToCollisionBuffer(ren, NULL, &bodyRect, color);
 }
 
@@ -98,13 +97,18 @@ int buffers_init(SDL_Renderer *ren)
 {
     buffer = NULL;
     collision_buffer = NULL;
-
     buffer = SDL_CreateTexture(ren, 0,
                                SDL_TEXTUREACCESS_TARGET, map_rect.w, map_rect.h);
+
+
     collision_buffer = SDL_CreateTexture(ren, 0,
                                          SDL_TEXTUREACCESS_TARGET, map_rect.w, map_rect.h);
+
+
+
     map_collision_buffer = SDL_CreateTexture(ren, 0,
                            SDL_TEXTUREACCESS_TARGET, map_rect.w, map_rect.h);
+
 
     if (buffer == NULL || collision_buffer == NULL
         || map_collision_buffer == NULL)
