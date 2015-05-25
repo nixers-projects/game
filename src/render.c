@@ -224,7 +224,7 @@ void drawLayer(SDL_Renderer *ren, SDL_Texture *res, tmx_map *map, tmx_layer *lay
 
     for (i=0; i<map->height; i++) {
         for (j=0; j<map->width; j++) {
-            ts = tmx_get_tile(map, layer->content.gids[(i*map->width)+j],
+            ts = tmx_get_tileset(map, layer->content.gids[(i*map->width)+j],
                               // FIXME: This probably aint good way to go..
                               (unsigned int *)&(srcrect.x),
                               (unsigned int *)&(srcrect.y));
