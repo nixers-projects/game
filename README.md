@@ -7,6 +7,15 @@ have a forum thread [here](http://nixers.net/showthread.php?tid=1621), and
 regularly discuss development over at [#game](irc://irc.nixers.net/#game) on
 irc.nixers.net.
 
+Dependencies
+------------
+
+* [tmx](https://github.com/baylej/tmx), which depends on
+  * zlib
+  * jansson
+  * libxml2
+* sdl2 (might as well get the whole suite)
+
 Building
 --------
 
