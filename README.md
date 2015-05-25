@@ -28,9 +28,8 @@ targets in the future, so keep an eye out.
 Contributing
 ------------
 
-Generally we advise people make forks and pull requests, as it allows us to
-discuss changes before it's too late and means we don't have issues where two
-people have changed the same file and it becomes a pain to merge. Be sure to
+Generally we advise people make forks and pull requests. It allows us to
+discuss changes before it's too late and means we won't have issues with conflicting commits. Be sure to
 hop on IRC for the most up-to-date discussions.
 
 Style
