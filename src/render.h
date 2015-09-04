@@ -36,8 +36,8 @@ void setTargetToBuffer(SDL_Renderer*);
 SDL_Texture* renderMap(SDL_Renderer*, tmx_map*);
 
 void drawObjects(SDL_Renderer*, tmx_object*, int);
-void drawPolyline(SDL_Renderer *ren, int **points, int x, int y, int pointsc);
-void drawPolygon(SDL_Renderer *ren, int **points, int x, int y, int pointsc);
+void drawPolyline(SDL_Renderer *ren, double **points, double x, double y, int pointsc);
+void drawPolygon(SDL_Renderer *ren, double **points, double x, double y, int pointsc);
 void drawLayer(SDL_Renderer *ren, SDL_Texture *res, tmx_map *map, tmx_layer *layer);
 void drawImageLayer(SDL_Renderer *ren, tmx_image *img);
 
