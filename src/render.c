@@ -193,7 +193,7 @@ void drawObjects(SDL_Renderer *ren, tmx_object *head, int color)
     }
 }
 
-void drawPolyline(SDL_Renderer *ren, int **points, int x, int y, int pointsc)
+void drawPolyline(SDL_Renderer *ren, double **points, double x, double y, int pointsc)
 {
     int i;
     for (i=1; i<pointsc; i++) {
@@ -201,7 +201,7 @@ void drawPolyline(SDL_Renderer *ren, int **points, int x, int y, int pointsc)
     }
 }
 
-void drawPolygon(SDL_Renderer *ren, int **points, int x, int y, int pointsc)
+void drawPolygon(SDL_Renderer *ren, double **points, double x, double y, int pointsc)
 {
     drawPolyline(ren, points, x, y, pointsc);
     if (pointsc > 2) {
