@@ -18,22 +18,28 @@ void game_init(SDL_Renderer *ren)
         entities[i] = NULL;
     }
 
-    char* path = buildPath(ASSETS, "sprites/character.png");
-    animationCollection collec;
-    animation *down = CreateAnimation(ren,path,8,24,32,0.3,0,0);
-    animation *up = CreateAnimation(ren,path,8,24,32,0.3,0,1);
-    animation *left = CreateAnimation(ren,path,8,24,32,0.3,0,2);
-    animation *right = CreateAnimation(ren,path,8,24,32,0.3,0,3);
-    collec.move_up = up;
-    collec.move_down = down;
-    collec.move_left = left;
-    collec.move_right = right;
-    character = CreateEntity(100, 100, 24,32,collec);
+    char* path = buildPath(ASSETS, "sprites/soldier.png");
+
+    SDL_Rect *frames = malloc(sizeof(SDL_Rect) * 4);
+    /*SDL_Rect f = { 0, 0, 64, 64 };*/
+    frames[0] = (SDL_Rect){ 0, 0, 64, 64 };
+    frames[1] = (SDL_Rect){ 64, 0, 64, 64 };
+    frames[2] = (SDL_Rect){ 128, 0, 64, 64 };
+    frames[3] = (SDL_Rect){ 0, 64, 64, 64};
+
+    SDL_Rect *framestorso = malloc(sizeof(SDL_Rect));
+    framestorso[0] = (SDL_Rect){ 64, 64, 64, 64};
+
+    twoPartAnimation tpAnim;
+    tpAnim.legs = CreateAnimation(ren, path, frames, 3, 0.2);
+    tpAnim.torso = CreateAnimation(ren, path, framestorso, 0, 0.3);
+
+    character = CreateEntity(100, 100, 24,32,tpAnim);
     character->type = ENTITY_TYPE_MAIN_CHARACTER;
     character->velocity = 80;
+    character->w = 64;
+    character->h = 64;
     entities[0] = character;
-    entities[1] = CreateEntity(200, 200, 24,32, collec);
-    entities[2] = CreateEntity(400,50,24,32, collec);
 
     path = buildPath(ASSETS, "map.tmx");
     /* You probably want to create a fuction that creates a SDL_Texture directly here */

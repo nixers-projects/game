@@ -34,8 +34,10 @@ void setColor(SDL_Renderer *ren, int color)
     SDL_SetRenderDrawColor(ren, r, g, b, SDL_ALPHA_OPAQUE);
 }
 
-void renderEntity(SDL_Renderer *ren, entity* e, int color[3],SDL_Rect* textureRect)
+void renderEntity(SDL_Renderer *ren, entity* e, int color[3])
 {
+    SDL_Rect *legsRect = &e->tpAnim.legs->frames[e->tpAnim.legs->currentFrame];
+    SDL_Rect *torsoRect = &e->tpAnim.torso->frames[e->tpAnim.torso->currentFrame];
     SDL_Rect bodyRect;
 
     bodyRect.x = e->x - map_rect.x;
@@ -43,11 +45,21 @@ void renderEntity(SDL_Renderer *ren, entity* e, int color[3],SDL_Rect* textureRe
     bodyRect.w = e->w;
     bodyRect.h = e->h;
     SDL_Rect dstrect;
-    dstrect.x = e->x - map_rect.x;
-    dstrect.y = e->y - map_rect.y;
-    dstrect.w = textureRect->w;
-    dstrect.h = textureRect->h;
-    renderToBuffer(ren, e->anim->tex, textureRect, &dstrect);
+    dstrect.x = e->x;//+ camera.x;
+    dstrect.y = e->y;//+ camera.y;
+
+    // Legs
+    dstrect.w = legsRect->w;
+    dstrect.h = legsRect->h;
+    renderToBufferEx(ren, e->tpAnim.legs->tex, legsRect, &dstrect,
+            e->tpAnim.legs->angle, NULL);
+
+    // Torso
+    dstrect.w = torsoRect->w;
+    dstrect.h = torsoRect->h;
+    renderToBufferEx(ren, e->tpAnim.torso->tex, torsoRect, &dstrect,
+            e->torso_angle, &e->torso_center);
+
     renderToCollisionBuffer(ren, NULL, &bodyRect, color);
 }
 
@@ -58,6 +70,15 @@ void render(SDL_Renderer *ren, SDL_Texture *tex, SDL_Rect *srcrect,
     // (see renderEntity)
     renderToBuffer(ren, tex, srcrect, dstrect);
     renderToCollisionBuffer(ren, srcrect, dstrect, color);
+}
+
+void renderToBufferEx(SDL_Renderer *ren, SDL_Texture *tex, SDL_Rect *srcrect,
+                    SDL_Rect *dstrect, double angle, SDL_Point *point)
+{
+    if (SDL_SetRenderTarget(ren, buffer) != 0) {
+        puts("FUCK BUFFER");
+    }
+    SDL_RenderCopyEx(ren, tex, srcrect, dstrect, angle, point, SDL_FLIP_NONE);
 }
 
 void renderToBuffer(SDL_Renderer *ren, SDL_Texture *tex, SDL_Rect *srcrect,
@@ -90,6 +111,7 @@ SDL_Texture* fillRect(SDL_Renderer *ren, SDL_Rect *rect, int color[3])
     if (s == NULL) printf("FUCK SURFACE %s", SDL_GetError());
 
     t = SDL_CreateTextureFromSurface(ren, s);
+
     return t;
 }
 
@@ -113,6 +135,7 @@ int buffers_init(SDL_Renderer *ren)
     if (buffer == NULL || collision_buffer == NULL
         || map_collision_buffer == NULL)
         return 1;
+
     return 0;
 }
 

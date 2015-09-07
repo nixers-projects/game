@@ -16,14 +16,16 @@ typedef struct {
     float x_vel, y_vel;
     float velocity;
     int type;
+    double torso_angle;
+    SDL_Point torso_center;
     // animation
-    animationCollection animations;
-    animation* anim;
+    //animationCollection animations;
+    //animation* anim;
+    twoPartAnimation tpAnim;
 } entity;
 
-entity* CreateEntity(int x, int y, int w, int h,animationCollection animations);
+entity* CreateEntity(int x, int y, int w, int h, twoPartAnimation);
 
-void rendererEntity(SDL_Renderer *ren, entity *e);
 void updateEntity(entity *e, float deltaTimeS);
 void eventEntity(entity * e, SDL_Event event, float deltaTimeS);
 
