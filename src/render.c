@@ -45,8 +45,8 @@ void renderEntity(SDL_Renderer *ren, entity* e, int color[3])
     bodyRect.w = e->w;
     bodyRect.h = e->h;
     SDL_Rect dstrect;
-    dstrect.x = e->x;//+ camera.x;
-    dstrect.y = e->y;//+ camera.y;
+    dstrect.x = e->x;
+    dstrect.y = e->y;
 
     // Legs
     dstrect.w = legsRect->w;

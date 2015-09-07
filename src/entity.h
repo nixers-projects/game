@@ -18,9 +18,8 @@ typedef struct {
     int type;
     double torso_angle;
     SDL_Point torso_center;
+    //
     // animation
-    //animationCollection animations;
-    //animation* anim;
     twoPartAnimation tpAnim;
 } entity;
 

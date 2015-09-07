@@ -24,7 +24,6 @@ entity* CreateEntity(int x, int y, int w, int h, twoPartAnimation tpAnim)
 
 void updateEntity(entity *e, float deltaTimeS)
 {
-    /*updateAnimation(e->anim,deltaTimeS);*/
     updateTpAnimation(&e->tpAnim, deltaTimeS);
     switch (e->type) {
     case ENTITY_TYPE_DEFAULT:
