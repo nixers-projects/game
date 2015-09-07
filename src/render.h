@@ -26,7 +26,7 @@ void render(SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_Rect*, int color[3]);
 void renderEntity(SDL_Renderer*, entity*, int color[3]);
 void renderToBuffer(SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_Rect*);
 void renderToBufferEx(SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_Rect*,
-        double angle, SDL_Point *point);
+                      double angle, SDL_Point *point);
 void renderToCollisionBuffer(SDL_Renderer*, SDL_Rect*, SDL_Rect*, int color[3]);
 
 SDL_Texture* fillRect(SDL_Renderer *ren, SDL_Rect *rect, int color[3]);

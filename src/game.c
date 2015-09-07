@@ -22,13 +22,23 @@ void game_init(SDL_Renderer *ren)
 
     SDL_Rect *frames = malloc(sizeof(SDL_Rect) * 4);
     /*SDL_Rect f = { 0, 0, 64, 64 };*/
-    frames[0] = (SDL_Rect){ 0, 0, 64, 64 };
-    frames[1] = (SDL_Rect){ 64, 0, 64, 64 };
-    frames[2] = (SDL_Rect){ 128, 0, 64, 64 };
-    frames[3] = (SDL_Rect){ 0, 64, 64, 64};
+    frames[0] = (SDL_Rect) {
+        0, 0, 64, 64
+    };
+    frames[1] = (SDL_Rect) {
+        64, 0, 64, 64
+    };
+    frames[2] = (SDL_Rect) {
+        128, 0, 64, 64
+    };
+    frames[3] = (SDL_Rect) {
+        0, 64, 64, 64
+    };
 
     SDL_Rect *framestorso = malloc(sizeof(SDL_Rect));
-    framestorso[0] = (SDL_Rect){ 64, 64, 64, 64};
+    framestorso[0] = (SDL_Rect) {
+        64, 64, 64, 64
+    };
 
     twoPartAnimation tpAnim;
     tpAnim.legs = CreateAnimation(ren, path, frames, 3, 0.2);

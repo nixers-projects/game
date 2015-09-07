@@ -2,7 +2,7 @@
 #include <SDL2/SDL_image.h>
 
 animation* CreateAnimation(SDL_Renderer *ren, char *path, SDL_Rect *frames,
-        int numFrames, float timeBetweenFrames)
+                           int numFrames, float timeBetweenFrames)
 {
     SDL_Surface *img = IMG_Load(path);
     if(!img) {
@@ -32,7 +32,8 @@ void updateAnimation(animation* anim, float deltaTimeS)
     }
 }
 
-void updateTpAnimation(twoPartAnimation *anim, float deltaTimeS) {
+void updateTpAnimation(twoPartAnimation *anim, float deltaTimeS)
+{
     updateAnimation(anim->legs, deltaTimeS);
     updateAnimation(anim->torso, deltaTimeS);
 }

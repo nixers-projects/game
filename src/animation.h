@@ -18,6 +18,6 @@ typedef struct twoPartAnimation {
 
 // numFrames with zero index
 animation* CreateAnimation(SDL_Renderer *ren, char *path, SDL_Rect *frames,
-        int numFrames, float timeBetweenFrames);
+                           int numFrames, float timeBetweenFrames);
 void updateAnimation(animation* e, float deltaTimeS);
 void updateTpAnimation(twoPartAnimation* e, float deltaTimeS);

@@ -37,7 +37,8 @@ double deltaX;
 double deltaY;
 int debug_line_num = 0;
 
-void draw_debug_line(char *str, int len) {
+void draw_debug_line(char *str, int len)
+{
     SDL_Color background = { 0, 0, 0, 0 };
     SDL_Color foreground = { 255, 255, 255, 0 };
 

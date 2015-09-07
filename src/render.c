@@ -52,13 +52,13 @@ void renderEntity(SDL_Renderer *ren, entity* e, int color[3])
     dstrect.w = legsRect->w;
     dstrect.h = legsRect->h;
     renderToBufferEx(ren, e->tpAnim.legs->tex, legsRect, &dstrect,
-            e->tpAnim.legs->angle, NULL);
+                     e->tpAnim.legs->angle, NULL);
 
     // Torso
     dstrect.w = torsoRect->w;
     dstrect.h = torsoRect->h;
     renderToBufferEx(ren, e->tpAnim.torso->tex, torsoRect, &dstrect,
-            e->torso_angle, &e->torso_center);
+                     e->torso_angle, &e->torso_center);
 
     renderToCollisionBuffer(ren, NULL, &bodyRect, color);
 }
@@ -73,7 +73,7 @@ void render(SDL_Renderer *ren, SDL_Texture *tex, SDL_Rect *srcrect,
 }
 
 void renderToBufferEx(SDL_Renderer *ren, SDL_Texture *tex, SDL_Rect *srcrect,
-                    SDL_Rect *dstrect, double angle, SDL_Point *point)
+                      SDL_Rect *dstrect, double angle, SDL_Point *point)
 {
     if (SDL_SetRenderTarget(ren, buffer) != 0) {
         puts("FUCK BUFFER");
@@ -248,9 +248,9 @@ void drawLayer(SDL_Renderer *ren, SDL_Texture *res, tmx_map *map, tmx_layer *lay
     for (i=0; i<map->height; i++) {
         for (j=0; j<map->width; j++) {
             ts = tmx_get_tileset(map, layer->content.gids[(i*map->width)+j],
-                              // FIXME: This probably aint good way to go..
-                              (unsigned int *)&(srcrect.x),
-                              (unsigned int *)&(srcrect.y));
+                                 // FIXME: This probably aint good way to go..
+                                 (unsigned int *)&(srcrect.x),
+                                 (unsigned int *)&(srcrect.y));
             if (ts) {
                 /* TODO Opacity and Flips */
                 srcrect.w = dstrect.w = ts->tile_width;

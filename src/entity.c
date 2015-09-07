@@ -18,7 +18,9 @@ entity* CreateEntity(int x, int y, int w, int h, twoPartAnimation tpAnim)
     e->tpAnim = tpAnim;
     e->type = ENTITY_TYPE_DEFAULT;
     e->torso_angle = 0.0f;
-    e->torso_center = (SDL_Point){ 32, 32 };
+    e->torso_center = (SDL_Point) {
+        32, 32
+    };
     return e;
 }
 
