@@ -1,20 +1,23 @@
 #include <SDL2/SDL.h>
 
+#define ANIMATION_MAX_FRAMES 10
+
 typedef struct animation {
-    int frameNumber,frameWidth,frameHeight,current_frame,startX,startY;
+    int numFrames;
+    int currentFrame;
+    SDL_Rect *frames;
     float elapsedTime,timeBetweenFrames;
     SDL_Texture *tex;
-    int texX;
+    double angle;
 } animation;
 
-typedef struct animationCollection {
-    animation* idle;
-    animation* move_up;
-    animation* move_right;
-    animation* move_down;
-    animation* move_left;
-} animationCollection;
+typedef struct twoPartAnimation {
+    animation *legs;
+    animation *torso;
+} twoPartAnimation;
 
-animation* CreateAnimation(SDL_Renderer *ren,char *path, int frameNumber, int frameWidth, int frameHeight, float timeBetweenFrames, int startX, int  startY);
+// numFrames with zero index
+animation* CreateAnimation(SDL_Renderer *ren, char *path, SDL_Rect *frames,
+                           int numFrames, float timeBetweenFrames);
 void updateAnimation(animation* e, float deltaTimeS);
-SDL_Rect* getTextureRect(animation*);
+void updateTpAnimation(twoPartAnimation* e, float deltaTimeS);

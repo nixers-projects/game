@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <math.h>
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
 #include "SDL2/SDL_mixer.h"
@@ -14,6 +15,8 @@
 #define WINDOW_TITLE "Game"
 #define MAX_FPS 100
 
+#define PI 4*atan(1.0)
+
 #ifndef ASSETS
 #define ASSETS "assets/"
 #endif
@@ -27,27 +30,69 @@ TTF_Font *font;
 SDL_Texture *curr_buffer;
 SDL_Texture *map_tex;
 
+Sint32 mouse_x;
+Sint32 mouse_y;
+
+double deltaX;
+double deltaY;
+int debug_line_num = 0;
+
+void draw_debug_line(char *str, int len)
+{
+    SDL_Color background = { 0, 0, 0, 0 };
+    SDL_Color foreground = { 255, 255, 255, 0 };
+
+    SDL_Surface *textSurface = TTF_RenderText(font, str, foreground, background);
+    SDL_Rect textLocation = { 0 + camera.x, 0 + camera.y + debug_line_num * 25, len, 25 };
+    SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
+    renderToBuffer(renderer, text, NULL, &textLocation);
+
+    debug_line_num++;
+}
+
 void draw(int deltaTimeMs)
 {
     float deltaTimeS = (float) deltaTimeMs / 1000;
     float fps = (float) 1.0 / deltaTimeS;
 
+    debug_line_num = 0;
+
     renderToBuffer(renderer, map_tex, NULL, &map_rect);
 
     for (int i = 0; i < MAX_ENTITIES; i++) {
         if (entities[i] != NULL)
-            rendererEntity(renderer, entities[i]);
+            renderEntity(renderer, entities[i], (int[3])WORLD_COLOR_HARD);
     }
-
-    SDL_Color background = { 0, 0, 0, 0 };
-    SDL_Color foreground = { 255, 255, 255, 0 };
 
     char str[10];
     sprintf(str, "%3.2f fps", fps);
-    SDL_Surface *textSurface = TTF_RenderText(font, str, foreground, background);
-    SDL_Rect textLocation = { 0 + camera.x, 0 + camera.y, 50, 25 };
-    SDL_Texture *text = SDL_CreateTextureFromSurface(renderer, textSurface);
-    renderToBuffer(renderer, text, NULL, &textLocation);
+    draw_debug_line(str, 50);
+
+    sprintf(str, "x: %d y: %d", mouse_x, mouse_y);
+    draw_debug_line(str, 80);
+
+    sprintf(str, "px: %2.0f py: %2.0f", character->x, character->y);
+    draw_debug_line(str, 80);
+
+    sprintf(str, "angle: %3.4f", character->torso_angle);
+    draw_debug_line(str, 100);
+
+    sprintf(str, "cx: %d cy: %d", camera.x, camera.y);
+    draw_debug_line(str, 80);
+
+    sprintf(str, "mx: %d my: %d", map_rect.x, map_rect.y);
+    draw_debug_line(str, 80);
+
+    sprintf(str, "dx: %3.1f dy: %3.1f", deltaX, deltaY);
+    draw_debug_line(str, 100);
+
+    double x = character->x + 32;
+    double y = character->y + 32;
+    SDL_RenderDrawLine(renderer, x, y, mouse_x, mouse_y);
+    SDL_RenderDrawLine(renderer, x, y, mouse_x, y);
+    SDL_RenderDrawLine(renderer, mouse_x, y, mouse_x, mouse_y);
+    SDL_RenderDrawLine(renderer, x, y, x, mouse_y);
+    SDL_RenderDrawLine(renderer, x, mouse_y, mouse_x, mouse_y);
 }
 
 void update(int deltaTimeMs)
@@ -69,7 +114,29 @@ void event(SDL_Event e, int deltaTimeMs)
         } else if (key == SDL_SCANCODE_C) {
             if (curr_buffer == buffer) curr_buffer = collision_buffer;
             else curr_buffer = buffer;
+        } else if (key == SDL_SCANCODE_E) {
+            character->torso_angle += 5;
+            if (character->torso_angle > 360) {
+                character->torso_angle = 0;
+            }
+        } else if (key == SDL_SCANCODE_Q) {
+            character->torso_angle -= 5;
+            if (character->torso_angle < 0) {
+                character->torso_angle = 360;
+            }
         }
+    } else if (e.type == SDL_MOUSEMOTION) {
+        mouse_x = e.motion.x + camera.x;
+        mouse_y = e.motion.y + camera.y;
+
+        deltaX = mouse_x - character->x - character->w/2;
+        deltaY = mouse_y - character->y - character->h/2;
+
+        double rad = atan2(deltaY, deltaX);
+        if (rad < 0) {
+            rad += 2*PI;
+        }
+        character->torso_angle = 90 + (rad * 360 / 2*PI) / 10;
     }
     eventEntity(character, e, (float) deltaTimeMs / 1000);
 }
@@ -116,8 +183,8 @@ int main(int argc, char **argv)
     }
     free(path);
 
-    Mix_Music* music = loadMusic(buildPath(ASSETS,"music/song.mp3"));
-    playMusic(music);
+    /*Mix_Music* music = loadMusic(buildPath(ASSETS,"music/song.mp3"));*/
+    /*playMusic(music);*/
 
     // Black backround
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);

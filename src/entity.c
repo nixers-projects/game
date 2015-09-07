@@ -1,10 +1,11 @@
+#include <stdlib.h>
 #include <SDL2/SDL_image.h>
 #include "entity.h"
 #include "game.h"
 #include "render.h"
 #include "collision.h"
 
-entity* CreateEntity(int x, int y, int w, int h, animationCollection animations)
+entity* CreateEntity(int x, int y, int w, int h, twoPartAnimation tpAnim)
 {
     entity *e = malloc(sizeof(entity));
     e->x = x;
@@ -14,20 +15,18 @@ entity* CreateEntity(int x, int y, int w, int h, animationCollection animations)
     e->x_vel = 0;
     e->y_vel = 0;
     e->velocity = 70;
-    e->animations = animations;
-    e->anim = animations.move_up;
+    e->tpAnim = tpAnim;
     e->type = ENTITY_TYPE_DEFAULT;
+    e->torso_angle = 0.0f;
+    e->torso_center = (SDL_Point) {
+        32, 32
+    };
     return e;
-}
-
-void rendererEntity(SDL_Renderer *ren, entity *e)
-{
-    renderEntity(ren, e,(int[3])WORLD_COLOR_HARD,getTextureRect(e->anim));
 }
 
 void updateEntity(entity *e, float deltaTimeS)
 {
-    updateAnimation(e->anim,deltaTimeS);
+    updateTpAnimation(&e->tpAnim, deltaTimeS);
     switch (e->type) {
     case ENTITY_TYPE_DEFAULT:
         if (character->x < e->x) entity_move_left(e, deltaTimeS);
@@ -93,28 +92,34 @@ void eventEntity(entity * e, SDL_Event event, float deltaTimeS)
         } else if (key == SDL_SCANCODE_S || key == SDL_SCANCODE_W) {
             character->y_vel = 0;
         }
+    } else if (event.type == SDL_MOUSEMOTION) {
+        // Check main.c!
+
+        /*int deltaX = event.motion.x + camera.x - (e->x + 32);*/
+        /*int deltaY = event.motion.y + camera.y - (e->y + 32);*/
+        /*e->torso_angle = atan2(deltaY, deltaX) * 180 / PI;*/
     }
 }
 
 void entity_move_left(entity *e, float deltaTimeS)
 {
     e->x_vel = e->velocity * -deltaTimeS;
-    e->anim = e->animations.move_left;
+    e->tpAnim.legs->angle = 270;
 }
 
 void entity_move_right(entity *e, float deltaTimeS)
 {
     e->x_vel = e->velocity * deltaTimeS;
-    e->anim = e->animations.move_right;
+    e->tpAnim.legs->angle = 90;
 }
 void entity_move_up(entity *e, float deltaTimeS)
 {
     e->y_vel = e->velocity * -deltaTimeS;
-    e->anim = e->animations.move_up;
+    e->tpAnim.legs->angle = 0;
 }
 
 void entity_move_down(entity *e, float deltaTimeS)
 {
     e->y_vel = e->velocity * deltaTimeS;
-    e->anim = e->animations.move_down;
+    e->tpAnim.legs->angle = 180;
 }
