@@ -14,7 +14,6 @@ static SDL_Surface* loadImage(char *path)
         fprintf(stderr,"IMG_Load: %s\n", IMG_GetError());
         return NULL;
     }
-    SDL_SetColorKey(img, 1, SDL_MapRGB(img->format, 255, 0, 255));
     return img;
 }
 
