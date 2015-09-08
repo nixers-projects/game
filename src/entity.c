@@ -5,7 +5,8 @@
 #include "render.h"
 #include "collision.h"
 
-entity* CreateEntity(int x, int y, int w, int h, twoPartAnimation tpAnim)
+entity* CreateEntity(int x, int y, int w, int h, animation legs,
+        SDL_Rect torso)
 {
     entity *e = malloc(sizeof(entity));
     e->x = x;
@@ -15,18 +16,28 @@ entity* CreateEntity(int x, int y, int w, int h, twoPartAnimation tpAnim)
     e->x_vel = 0;
     e->y_vel = 0;
     e->velocity = 70;
-    e->tpAnim = tpAnim;
+    e->legs = legs;
+    e->torso = torso;
+    e->torso_tex = TextureSoldier;
     e->type = ENTITY_TYPE_DEFAULT;
     e->torso_angle = 0.0f;
     e->torso_center = (SDL_Point) {
         32, 32
     };
+    e->weapon = NULL;
     return e;
+}
+
+void updateEntityTorsoToWeapon(SDL_Renderer *ren, entity *e, heldWeapon *weapon) {
+    e->torso_tex = renderWeaponToTexture(ren, weapon,
+            e->torso_tex, &e->torso);
+    e->torso.x = 0;
+    e->torso.y = 0;
 }
 
 void updateEntity(entity *e, float deltaTimeS)
 {
-    updateTpAnimation(&e->tpAnim, deltaTimeS);
+    updateAnimation(&e->legs, deltaTimeS);
     switch (e->type) {
     case ENTITY_TYPE_DEFAULT:
         if (character->x < e->x) entity_move_left(e, deltaTimeS);
@@ -104,22 +115,22 @@ void eventEntity(entity * e, SDL_Event event, float deltaTimeS)
 void entity_move_left(entity *e, float deltaTimeS)
 {
     e->x_vel = e->velocity * -deltaTimeS;
-    e->tpAnim.legs->angle = 270;
+    e->legs_angle = 270;
 }
 
 void entity_move_right(entity *e, float deltaTimeS)
 {
     e->x_vel = e->velocity * deltaTimeS;
-    e->tpAnim.legs->angle = 90;
+    e->legs_angle = 90;
 }
 void entity_move_up(entity *e, float deltaTimeS)
 {
     e->y_vel = e->velocity * -deltaTimeS;
-    e->tpAnim.legs->angle = 0;
+    e->legs_angle = 0;
 }
 
 void entity_move_down(entity *e, float deltaTimeS)
 {
     e->y_vel = e->velocity * deltaTimeS;
-    e->tpAnim.legs->angle = 180;
+    e->legs_angle = 180;
 }

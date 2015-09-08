@@ -17,13 +17,18 @@ typedef struct {
     float velocity;
     int type;
     double torso_angle;
+    double legs_angle;
     SDL_Point torso_center;
-    //
+
     // animation
-    twoPartAnimation tpAnim;
+    animation legs;
+    SDL_Rect torso;
+    SDL_Texture *torso_tex;
+    heldWeapon *weapon;
 } entity;
 
-entity* CreateEntity(int x, int y, int w, int h, twoPartAnimation);
+entity* CreateEntity(int x, int y, int w, int h, animation legs, SDL_Rect torso);
+void updateEntityTorsoToWeapon(SDL_Renderer *ren, entity *e, heldWeapon *weapon);
 
 void updateEntity(entity *e, float deltaTimeS);
 void eventEntity(entity * e, SDL_Event event, float deltaTimeS);

@@ -7,6 +7,7 @@
 #include "entity.h"
 #include "util.h"
 #include "collision.h"
+#include "render.h"
 
 #ifndef ASSETS
 #define ASSETS "assets/"
@@ -18,10 +19,9 @@ void game_init(SDL_Renderer *ren)
         entities[i] = NULL;
     }
 
-    char* path = buildPath(ASSETS, "sprites/soldier.png");
+    animationLoadAssets(ren);
 
     SDL_Rect *frames = malloc(sizeof(SDL_Rect) * 4);
-    /*SDL_Rect f = { 0, 0, 64, 64 };*/
     frames[0] = (SDL_Rect) {
         0, 0, 64, 64
     };
@@ -35,23 +35,25 @@ void game_init(SDL_Renderer *ren)
         0, 64, 64, 64
     };
 
-    SDL_Rect *framestorso = malloc(sizeof(SDL_Rect));
-    framestorso[0] = (SDL_Rect) {
-        64, 64, 64, 64
-    };
+    animation *legs = CreateAnimation(ren, TextureSoldier, frames, 3, 0.2);
 
-    twoPartAnimation tpAnim;
-    tpAnim.legs = CreateAnimation(ren, path, frames, 3, 0.2);
-    tpAnim.torso = CreateAnimation(ren, path, framestorso, 0, 0.3);
-
-    character = CreateEntity(100, 100, 24,32,tpAnim);
+    character = CreateEntity(100, 100, 24,32, *legs, (SDL_Rect){64, 64, 64, 64});
     character->type = ENTITY_TYPE_MAIN_CHARACTER;
     character->velocity = 80;
     character->w = 64;
     character->h = 64;
     entities[0] = character;
 
-    path = buildPath(ASSETS, "map.tmx");
+    updateEntityTorsoToWeapon(ren, character, &WeaponSMG);
+
+    entity *e = CreateEntity(300, 300, 24,32, *legs, (SDL_Rect){64, 64, 64, 64});
+    e->type = ENTITY_TYPE_DEFAULT;
+    e->velocity = 60;
+    e->w = 64;
+    e->h = 64;
+    entities[1] = e;
+
+    char *path = buildPath(ASSETS, "map.tmx");
     /* You probably want to create a fuction that creates a SDL_Texture directly here */
     // https://github.com/baylej/tmx/blob/master/examples/sdl.c
     tmx_img_load_func = (void* (*)(const char*))IMG_Load;
