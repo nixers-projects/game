@@ -22,7 +22,7 @@ int buffers_init(SDL_Renderer *ren);
 void setColor(SDL_Renderer*, int color);
 
 SDL_Texture* renderWeaponToTexture(SDL_Renderer *ren, heldWeapon *weapon_src,
-        SDL_Texture *target_tex, SDL_Rect *target_src);
+                                   SDL_Texture *target_tex, SDL_Rect *target_src);
 
 void renderClear(SDL_Renderer*);
 void render(SDL_Renderer*, SDL_Texture*, SDL_Rect*, SDL_Rect*, int color[3]);

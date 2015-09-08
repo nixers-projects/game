@@ -6,7 +6,7 @@
 #include "collision.h"
 
 entity* CreateEntity(int x, int y, int w, int h, animation legs,
-        SDL_Rect torso)
+                     SDL_Rect torso)
 {
     entity *e = malloc(sizeof(entity));
     e->x = x;
@@ -28,9 +28,10 @@ entity* CreateEntity(int x, int y, int w, int h, animation legs,
     return e;
 }
 
-void updateEntityTorsoToWeapon(SDL_Renderer *ren, entity *e, heldWeapon *weapon) {
+void updateEntityTorsoToWeapon(SDL_Renderer *ren, entity *e, heldWeapon *weapon)
+{
     e->torso_tex = renderWeaponToTexture(ren, weapon,
-            e->torso_tex, &e->torso);
+                                         e->torso_tex, &e->torso);
     e->torso.x = 0;
     e->torso.y = 0;
 }

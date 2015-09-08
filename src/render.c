@@ -10,10 +10,11 @@ int bmask = 0x0000ff00;
 int amask = 0x000000ff;
 
 SDL_Texture* renderWeaponToTexture(SDL_Renderer *ren, heldWeapon *weapon_src,
-        SDL_Texture *target_tex, SDL_Rect *target_src) {
+                                   SDL_Texture *target_tex, SDL_Rect *target_src)
+{
 
     SDL_Texture *t = SDL_CreateTexture(ren, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET,
-            target_src->w, target_src->h);
+                                       target_src->w, target_src->h);
 
 
     SDL_SetTextureBlendMode(t, SDL_BLENDMODE_BLEND);

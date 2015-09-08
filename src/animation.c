@@ -7,7 +7,8 @@
 #endif
 
 
-static SDL_Surface* loadImage(char *path) {
+static SDL_Surface* loadImage(char *path)
+{
     SDL_Surface *img = IMG_Load(path);
     if(!img) {
         fprintf(stderr,"IMG_Load: %s\n", IMG_GetError());
@@ -18,7 +19,8 @@ static SDL_Surface* loadImage(char *path) {
 }
 
 
-void animationLoadAssets(SDL_Renderer *ren) {
+void animationLoadAssets(SDL_Renderer *ren)
+{
     char *path = buildPath(ASSETS, "sprites/held_weapons.png");
     SDL_Surface *img = loadImage(path);
 
@@ -29,7 +31,7 @@ void animationLoadAssets(SDL_Renderer *ren) {
     TextureSoldier = SDL_CreateTextureFromSurface(ren, img);
 
     WeaponSMG = (heldWeapon) {
-        (SDL_Rect){ 64, 0, 64, 64 },
+        (SDL_Rect) { 64, 0, 64, 64 },
         5, -15
     };
 

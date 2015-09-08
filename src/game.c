@@ -37,7 +37,9 @@ void game_init(SDL_Renderer *ren)
 
     animation *legs = CreateAnimation(ren, TextureSoldier, frames, 3, 0.2);
 
-    character = CreateEntity(100, 100, 24,32, *legs, (SDL_Rect){64, 64, 64, 64});
+    character = CreateEntity(100, 100, 24,32, *legs, (SDL_Rect) {
+        64, 64, 64, 64
+    });
     character->type = ENTITY_TYPE_MAIN_CHARACTER;
     character->velocity = 80;
     character->w = 64;
@@ -46,7 +48,9 @@ void game_init(SDL_Renderer *ren)
 
     updateEntityTorsoToWeapon(ren, character, &WeaponSMG);
 
-    entity *e = CreateEntity(300, 300, 24,32, *legs, (SDL_Rect){64, 64, 64, 64});
+    entity *e = CreateEntity(300, 300, 24,32, *legs, (SDL_Rect) {
+        64, 64, 64, 64
+    });
     e->type = ENTITY_TYPE_DEFAULT;
     e->velocity = 60;
     e->w = 64;
