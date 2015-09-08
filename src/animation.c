@@ -60,9 +60,3 @@ void updateAnimation(animation* anim, float deltaTimeS)
         else anim->currentFrame += 1;
     }
 }
-
-void updateTpAnimation(twoPartAnimation *anim, float deltaTimeS)
-{
-    updateAnimation(anim->legs, deltaTimeS);
-    updateAnimation(anim->torso, deltaTimeS);
-}

@@ -14,11 +14,6 @@ typedef struct animation {
     SDL_Texture *tex;
 } animation;
 
-typedef struct twoPartAnimation {
-    animation *legs;
-    animation *torso;
-} twoPartAnimation;
-
 typedef struct heldWeapon {
     SDL_Rect src;
     int x_offset, y_offset;
@@ -32,4 +27,3 @@ void animationLoadAssets(SDL_Renderer *ren);
 animation* CreateAnimation(SDL_Renderer *ren, SDL_Texture *tex, SDL_Rect *frames,
                            int numFrames, float timeBetweenFrames);
 void updateAnimation(animation* e, float deltaTimeS);
-void updateTpAnimation(twoPartAnimation* e, float deltaTimeS);
