@@ -9,6 +9,36 @@ int gmask = 0x00ff0000;
 int bmask = 0x0000ff00;
 int amask = 0x000000ff;
 
+SDL_Texture* renderWeaponToTexture(SDL_Renderer *ren, heldWeapon *weapon_src,
+                                   SDL_Texture *target_tex, SDL_Rect *target_src)
+{
+
+    SDL_Texture *t = SDL_CreateTexture(ren, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET,
+                                       target_src->w, target_src->h);
+
+
+    SDL_SetTextureBlendMode(t, SDL_BLENDMODE_BLEND);
+
+    if (SDL_SetRenderTarget(ren, t) != 0) {
+        puts("FUCK RENDERWEAPON");
+    }
+    SDL_SetRenderDrawColor(ren, 255, 255, 255, 0);
+
+    SDL_RenderFillRect(ren, NULL);
+
+    SDL_Rect dst = {0,0,target_src->w,target_src->h};
+    SDL_RenderCopy(ren, target_tex, target_src, &dst);
+    dst.x += weapon_src->x_offset;
+    dst.y += weapon_src->y_offset;
+    SDL_RenderCopy(ren, TextureWeapons, &weapon_src->src, &dst);
+
+    if (SDL_SetRenderTarget(ren, buffer) != 0) {
+        puts("FUCK RENDERWEAPON2");
+    }
+
+    return t;
+}
+
 void renderClear(SDL_Renderer *ren)
 {
     // Clear buffer
@@ -36,8 +66,8 @@ void setColor(SDL_Renderer *ren, int color)
 
 void renderEntity(SDL_Renderer *ren, entity* e, int color[3])
 {
-    SDL_Rect *legsRect = &e->tpAnim.legs->frames[e->tpAnim.legs->currentFrame];
-    SDL_Rect *torsoRect = &e->tpAnim.torso->frames[e->tpAnim.torso->currentFrame];
+    SDL_Rect *legsRect = &e->legs.frames[e->legs.currentFrame];
+    SDL_Rect *torsoRect = &e->torso;
     SDL_Rect bodyRect;
 
     bodyRect.x = e->x - map_rect.x;
@@ -51,13 +81,13 @@ void renderEntity(SDL_Renderer *ren, entity* e, int color[3])
     // Legs
     dstrect.w = legsRect->w;
     dstrect.h = legsRect->h;
-    renderToBufferEx(ren, e->tpAnim.legs->tex, legsRect, &dstrect,
-                     e->tpAnim.legs->angle, NULL);
+    renderToBufferEx(ren, e->legs.tex, legsRect, &dstrect,
+                     e->legs_angle, NULL);
 
     // Torso
     dstrect.w = torsoRect->w;
     dstrect.h = torsoRect->h;
-    renderToBufferEx(ren, e->tpAnim.torso->tex, torsoRect, &dstrect,
+    renderToBufferEx(ren, e->torso_tex, torsoRect, &dstrect,
                      e->torso_angle, &e->torso_center);
 
     renderToCollisionBuffer(ren, NULL, &bodyRect, color);
