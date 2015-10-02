@@ -47,8 +47,3 @@ Style
 The `prettify` script uses [astyle](http://astyle.sourceforge.net) to
 automatically format the code, please use it. We will reject or at least ask
 you to run astyle on any pull requests that are not formatted correctly.
-
-TODO
-----
-
-- [ ] All the things
